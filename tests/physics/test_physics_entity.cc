@@ -25,10 +25,10 @@ TEST_CASE("Update Entities") {
     physics::Entity entity("Entity", glm::dvec2(1, 2), glm::dvec2(3, 4));
     REQUIRE(entity.GetPosition() == glm::dvec2(1, 2));
     REQUIRE(entity.GetVelocity() == glm::dvec2(3, 4));
-    entity.UpdateState();
+    entity.UpdateState(1);
     REQUIRE(entity.GetPosition() == glm::dvec2(4, 6));
     REQUIRE(entity.GetVelocity() == glm::dvec2(3, 4));
-    entity.UpdateState();
+    entity.UpdateState(1);
     REQUIRE(entity.GetPosition() == glm::dvec2(7, 10));
     REQUIRE(entity.GetVelocity() == glm::dvec2(3, 4));
   }
@@ -38,11 +38,11 @@ TEST_CASE("Update Entities") {
     REQUIRE(entity.GetPosition() == glm::dvec2(1, 2));
     REQUIRE(entity.GetVelocity() == glm::dvec2(3, 4));
     REQUIRE(entity.GetAcceleration() == glm::dvec2(1, -1));
-    entity.UpdateState();
+    entity.UpdateState(1);
     REQUIRE(entity.GetPosition() == glm::dvec2(5, 5));
     REQUIRE(entity.GetVelocity() == glm::dvec2(4, 3));
     REQUIRE(entity.GetAcceleration() == glm::dvec2(1, -1));
-    entity.UpdateState();
+    entity.UpdateState(1);
     REQUIRE(entity.GetPosition() == glm::dvec2(10, 7));
     REQUIRE(entity.GetVelocity() == glm::dvec2(5, 2));
     REQUIRE(entity.GetAcceleration() == glm::dvec2(1, -1));
