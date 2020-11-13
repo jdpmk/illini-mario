@@ -20,8 +20,8 @@ glm::dvec2 Entity::GetVelocity() {
   return velocity_;
 }
 
-void Entity::UpdateState() {
-  position_ += velocity_;
+void Entity::UpdateState(double dt) {
+  position_ += velocity_ * dt;
 }
 
 }

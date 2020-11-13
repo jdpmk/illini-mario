@@ -11,9 +11,9 @@ glm::dvec2 AcceleratedEntity::GetAcceleration() {
   return acceleration_;
 }
 
-void AcceleratedEntity::UpdateState() {
-  velocity_ += acceleration_;
-  position_ += velocity_;
+void AcceleratedEntity::UpdateState(double dt) {
+  velocity_ += acceleration_ * dt;
+  position_ += velocity_ * dt;
 }
 
 
