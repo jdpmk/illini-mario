@@ -47,12 +47,13 @@ get_filename_component(APP_PATH "${CMAKE_CURRENT_SOURCE_DIR}/" ABSOLUTE)
 include("${CINDER_PATH}/proj/cmake/modules/cinderMakeApp.cmake")
 
 list(APPEND CORE_SOURCE_FILES
-        src/example.cc)
+        src/example.cc src/physics/entity.cc src/physics/accelerated_entity.cc)
 
 list(APPEND SOURCE_FILES ${CORE_SOURCE_FILES}
         src/gui/game_app.cc)
 
-list(APPEND TEST_FILES tests/test_example.cc)
+list(APPEND TEST_FILES
+        tests/test_example.cc tests/physics/test_physics_entity.cc)
 
 ci_make_app(
         APP_NAME        game-gui
@@ -63,6 +64,14 @@ ci_make_app(
 
 ci_make_app(
         APP_NAME        example-test
+        CINDER_PATH     ${CINDER_PATH}
+        SOURCES         tests/test_main.cc ${SOURCE_FILES} ${TEST_FILES}
+        INCLUDES        include
+        LIBRARIES       catch2
+)
+
+ci_make_app(
+        APP_NAME        physics-entity-test
         CINDER_PATH     ${CINDER_PATH}
         SOURCES         tests/test_main.cc ${SOURCE_FILES} ${TEST_FILES}
         INCLUDES        include
