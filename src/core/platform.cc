@@ -4,7 +4,10 @@ namespace game {
 
 namespace core {
 
-Platform::Platform(glm::dvec2 top_left_corner, glm::dvec2 bottom_right_corner) {
+Platform::Platform(std::string name, glm::dvec2 position, glm::dvec2 velocity, glm::dvec2 top_left_corner, glm::dvec2 bottom_right_corner) {
+  name_ = name;
+  position_ = position;
+  velocity_ = velocity;
   top_left_corner_ = top_left_corner;
   bottom_right_corner_ = bottom_right_corner;
 }

@@ -54,7 +54,8 @@ list(APPEND SOURCE_FILES ${CORE_SOURCE_FILES}
         src/gui/game_app.cc)
 
 list(APPEND TEST_FILES
-        tests/test_example.cc tests/physics/test_physics_entity.cc)
+        tests/test_example.cc tests/physics/test_physics_entity.cc
+        tests/core/test_core_entity.cc)
 
 ci_make_app(
         APP_NAME        game-gui
@@ -72,7 +73,7 @@ ci_make_app(
 )
 
 ci_make_app(
-        APP_NAME        physics-entity-test
+        APP_NAME        game-tests
         CINDER_PATH     ${CINDER_PATH}
         SOURCES         tests/test_main.cc ${SOURCE_FILES} ${TEST_FILES}
         INCLUDES        include
