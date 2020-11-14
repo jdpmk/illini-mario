@@ -10,6 +10,8 @@ namespace interactions {
 enum CollisionType {
   PlayerOnPlatform,
   PlayerUnderPlatform,
+  PlayerOnLeftOfPlatform,
+  PlayerOnRightOfPlatform,
   NoCollision
 };
 

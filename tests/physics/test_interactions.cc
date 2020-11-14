@@ -50,36 +50,48 @@ TEST_CASE("Check No Collision") {
 TEST_CASE("Player and Platform Collision") {
   SECTION("Player Lands On Platform") {
     SECTION("Player Directly Above Platform") {
-      game::core::Player player("Player", glm::dvec2(360, 205), glm::dvec2(0, -1), glm::dvec2(0, 0), 20, 30);
-      game::core::Platform platform("Platform", glm::dvec2(400, 200), glm::dvec2(0, 0), 200, 10);
+      game::core::Player player("Player", glm::dvec2(5, 12), glm::dvec2(0, -1), glm::dvec2(0, 0), 2, 2);
+      game::core::Platform platform("Platform", glm::dvec2(5, 5), glm::dvec2(0, 0), 10, 10);
+      REQUIRE(physics::interactions::DetermineCollision(player, platform) == physics::interactions::CollisionType::NoCollision);
+      player.UpdateState(1);
+      platform.UpdateState(1);
       REQUIRE(physics::interactions::DetermineCollision(player, platform) == physics::interactions::CollisionType::PlayerOnPlatform);
-    }
-    SECTION("Player Hanging Off Left Side Of Platform") {
-      game::core::Player player("Player", glm::dvec2(305, 205), glm::dvec2(0, -1), glm::dvec2(0, 0), 20, 30);
-      game::core::Platform platform("Platform", glm::dvec2(400, 200), glm::dvec2(0, 0), 200, 10);
-      REQUIRE(physics::interactions::DetermineCollision(player, platform) == physics::interactions::CollisionType::PlayerOnPlatform);
-    }
-    SECTION("Player Hanging Off Right Side Of Platform") {
-      game::core::Player player("Player", glm::dvec2(495, 205), glm::dvec2(0, -1), glm::dvec2(0, 0), 20, 30);
-      game::core::Platform platform("Platform", glm::dvec2(400, 200), glm::dvec2(0, 0), 200, 10);
+      player.UpdateState(1);
+      platform.UpdateState(1);
       REQUIRE(physics::interactions::DetermineCollision(player, platform) == physics::interactions::CollisionType::PlayerOnPlatform);
     }
   }
-  SECTION("Player Hits Bottom Of Platform") {
-    SECTION("Player Directly Under Platform") {
-      game::core::Player player("Player", glm::dvec2(360, 205), glm::dvec2(0, 1), glm::dvec2(0, 0), 20, 30);
-      game::core::Platform platform("Platform", glm::dvec2(400, 200), glm::dvec2(0, 0), 200, 10);
-      REQUIRE(physics::interactions::DetermineCollision(player, platform) == physics::interactions::CollisionType::PlayerUnderPlatform);
-    }
-    SECTION("Player Hits Part Of Left Side Of Platform") {
-      game::core::Player player("Player", glm::dvec2(305, 205), glm::dvec2(0, 1), glm::dvec2(0, 0), 20, 30);
-      game::core::Platform platform("Platform", glm::dvec2(400, 200), glm::dvec2(0, 0), 200, 10);
-      REQUIRE(physics::interactions::DetermineCollision(player, platform) == physics::interactions::CollisionType::PlayerUnderPlatform);
-    }
-    SECTION("Player Hits Part Of Right Side Of Platform") {
-      game::core::Player player("Player", glm::dvec2(495, 205), glm::dvec2(0, 1), glm::dvec2(0, 0), 20, 30);
-      game::core::Platform platform("Platform", glm::dvec2(400, 200), glm::dvec2(0, 0), 200, 10);
-      REQUIRE(physics::interactions::DetermineCollision(player, platform) == physics::interactions::CollisionType::PlayerUnderPlatform);
-    }
+  SECTION("Player Hitting Bottom Of Platform") {
+    game::core::Player player("Player", glm::dvec2(5, 8), glm::dvec2(0, 1), glm::dvec2(0, 0), 2, 2);
+    game::core::Platform platform("Platform", glm::dvec2(5, 15), glm::dvec2(0, 0), 10, 10);
+    REQUIRE(physics::interactions::DetermineCollision(player, platform) == physics::interactions::CollisionType::NoCollision);
+    player.UpdateState(1);
+    platform.UpdateState(1);
+    REQUIRE(physics::interactions::DetermineCollision(player, platform) == physics::interactions::CollisionType::PlayerUnderPlatform);
+    player.UpdateState(1);
+    platform.UpdateState(1);
+    REQUIRE(physics::interactions::DetermineCollision(player, platform) == physics::interactions::CollisionType::NoCollision);
+  }
+  SECTION("Player Hits Left Of Platform") {
+    game::core::Player player("Player", glm::dvec2(3, 10), glm::dvec2(1, 0), glm::dvec2(0, 0), 2, 2);
+    game::core::Platform platform("Platform", glm::dvec2(10, 15), glm::dvec2(0, 0), 10, 10);
+    REQUIRE(physics::interactions::DetermineCollision(player, platform) == physics::interactions::CollisionType::NoCollision);
+    player.UpdateState(1);
+    platform.UpdateState(1);
+    REQUIRE(physics::interactions::DetermineCollision(player, platform) == physics::interactions::CollisionType::PlayerOnLeftOfPlatform);
+    player.UpdateState(1);
+    platform.UpdateState(1);
+    REQUIRE(physics::interactions::DetermineCollision(player, platform) == physics::interactions::CollisionType::PlayerOnLeftOfPlatform);
+  }
+  SECTION("Player Hits Right Of Platform") {
+    game::core::Player player("Player", glm::dvec2(17, 10), glm::dvec2(-1, 0), glm::dvec2(0, 0), 2, 2);
+    game::core::Platform platform("Platform", glm::dvec2(10, 15), glm::dvec2(0, 0), 10, 10);
+    REQUIRE(physics::interactions::DetermineCollision(player, platform) == physics::interactions::CollisionType::NoCollision);
+    player.UpdateState(1);
+    platform.UpdateState(1);
+    REQUIRE(physics::interactions::DetermineCollision(player, platform) == physics::interactions::CollisionType::PlayerOnRightOfPlatform);
+    player.UpdateState(1);
+    platform.UpdateState(1);
+    REQUIRE(physics::interactions::DetermineCollision(player, platform) == physics::interactions::CollisionType::PlayerOnRightOfPlatform);
   }
 }
