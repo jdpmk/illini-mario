@@ -9,14 +9,12 @@ namespace core {
 class Player : public physics::AcceleratedEntity {
  public:
   Player() = default;
-  Player(std::string name, glm::dvec2 position, glm::dvec2 velocity, glm::dvec2 acceleration, size_t width, size_t height);
-  size_t GetScore();
-  size_t GetWidth();
-  size_t GetHeight();
-  glm::dvec2 GetTopLeftCorner();
-  glm::dvec2 GetTopRightCorner();
-  glm::dvec2 GetBottomLeftCorner();
-  glm::dvec2 GetBottomRightCorner();
+  Player(const std::string& name, const glm::dvec2& position, const glm::dvec2& velocity, const glm::dvec2& acceleration, size_t width, size_t height);
+  size_t GetScore() const;
+  size_t GetWidth() const;
+  size_t GetHeight() const;
+  glm::dvec2 GetTopLeftCorner() const;
+  glm::dvec2 GetBottomRightCorner() const;
  private:
   size_t score_;
   size_t width_;
