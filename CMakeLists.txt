@@ -48,7 +48,7 @@ include("${CINDER_PATH}/proj/cmake/modules/cinderMakeApp.cmake")
 
 list(APPEND CORE_SOURCE_FILES
         src/example.cc src/physics/entity.cc src/physics/accelerated_entity.cc
-        src/core/player.cc src/core/platform.cc)
+        src/core/player.cc src/core/platform.cc src/physics/interactions.cc)
 
 list(APPEND SOURCE_FILES ${CORE_SOURCE_FILES}
         src/gui/game_app.cc)
