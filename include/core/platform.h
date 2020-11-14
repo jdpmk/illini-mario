@@ -9,12 +9,14 @@ namespace core {
 class Platform : public physics::Entity {
  public:
   Platform() = default;
-  Platform(std::string name, glm::dvec2 position, glm::dvec2 velocity, glm::dvec2 top_left_corner, glm::dvec2 bottom_right_corner);
+  Platform(std::string name, glm::dvec2 position, glm::dvec2 velocity, size_t width, size_t height);
+  size_t GetWidth();
+  size_t GetHeight();
   glm::dvec2 GetTopLeftCorner();
   glm::dvec2 GetBottomRightCorner();
  private:
-  glm::dvec2 top_left_corner_;
-  glm::dvec2 bottom_right_corner_;
+  size_t width_;
+  size_t height_;
 };
 
 }

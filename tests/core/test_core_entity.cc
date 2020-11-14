@@ -5,12 +5,12 @@
 
 TEST_CASE("Construct Core Entities") {
   SECTION("Platform Initialization") {
-    game::core::Platform platform("Platform", glm::dvec2(1, 2), glm::dvec2(3, 4), glm::dvec2(10, 20), glm::dvec2(20, 15));
+    game::core::Platform platform("Platform", glm::dvec2(10, 10), glm::dvec2(0, -1), 20, 10);
     REQUIRE(platform.GetName() == "Platform");
-    REQUIRE(platform.GetPosition() == glm::dvec2(1, 2));
-    REQUIRE(platform.GetVelocity() == glm::dvec2(3, 4));
-    REQUIRE(platform.GetTopLeftCorner() == glm::dvec2(10, 20));
-    REQUIRE(platform.GetBottomRightCorner() == glm::dvec2(20, 15));
+    REQUIRE(platform.GetPosition() == glm::dvec2(10, 10));
+    REQUIRE(platform.GetVelocity() == glm::dvec2(0, -1));
+    REQUIRE(platform.GetTopLeftCorner() == glm::dvec2(0, 15));
+    REQUIRE(platform.GetBottomRightCorner() == glm::dvec2(20, 5));
   }
 
   SECTION("Player Initialization") {

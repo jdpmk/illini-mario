@@ -4,20 +4,28 @@ namespace game {
 
 namespace core {
 
-Platform::Platform(std::string name, glm::dvec2 position, glm::dvec2 velocity, glm::dvec2 top_left_corner, glm::dvec2 bottom_right_corner) {
+Platform::Platform(std::string name, glm::dvec2 position, glm::dvec2 velocity, size_t width, size_t height) {
   name_ = name;
   position_ = position;
   velocity_ = velocity;
-  top_left_corner_ = top_left_corner;
-  bottom_right_corner_ = bottom_right_corner;
+  width_ = width;
+  height_ = height;
+}
+
+size_t Platform::GetWidth() {
+  return width_;
+}
+
+size_t Platform::GetHeight() {
+  return height_;
 }
 
 glm::dvec2 Platform::GetTopLeftCorner() {
-  return top_left_corner_;
+  return glm::dvec2(position_.x - width_ / 2, position_.y + height_ / 2);
 }
 
 glm::dvec2 Platform::GetBottomRightCorner() {
-  return bottom_right_corner_;
+  return glm::dvec2(position_.x + width_ / 2, position_.y - height_ / 2);
 }
 
 }
