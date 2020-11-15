@@ -2,8 +2,8 @@
 
 namespace physics {
 
-AcceleratedEntity::AcceleratedEntity(std::string name, glm::dvec2 position, glm::dvec2 velocity, glm::dvec2 acceleration)
-        : Entity(name, position, velocity) {
+AcceleratedEntity::AcceleratedEntity(glm::dvec2 position, glm::dvec2 velocity, glm::dvec2 acceleration, size_t width, size_t height)
+        : Entity(position, velocity, width, height) {
   acceleration_ = acceleration;
 }
 
@@ -16,7 +16,6 @@ void AcceleratedEntity::SetAcceleration(const glm::dvec2& acceleration) {
 }
 
 void AcceleratedEntity::UpdateState(double dt) {
-  old_position_ = position_;
   velocity_ += acceleration_ * dt;
   position_ += velocity_ * dt;
 }

@@ -48,15 +48,14 @@ include("${CINDER_PATH}/proj/cmake/modules/cinderMakeApp.cmake")
 
 list(APPEND CORE_SOURCE_FILES
         src/example.cc src/physics/entity.cc src/physics/accelerated_entity.cc
-        src/core/player.cc src/core/platform.cc
-        src/core/game.cc src/physics/interactions.cc)
+        src/physics/interactions.cc src/core/platform.cc src/core/player.cc)
 
 list(APPEND SOURCE_FILES ${CORE_SOURCE_FILES}
         src/gui/game_app.cc)
 
 list(APPEND TEST_FILES
         tests/test_example.cc tests/physics/test_physics_entity.cc
-        tests/core/test_core_entity.cc tests/physics/test_interactions.cc)
+        tests/physics/test_physics_interactions.cc)
 
 ci_make_app(
         APP_NAME        game-gui

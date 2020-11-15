@@ -5,52 +5,67 @@ namespace physics {
 namespace interactions {
 
 CollisionType DetermineCollision(const game::core::Player& player, const game::core::Platform& platform) {
-  size_t player_bottom = player.GetPosition().y - player.GetHeight() / 2;
-  size_t player_top = player.GetPosition().y + player.GetHeight() / 2;
-  size_t player_left = player.GetPosition().x - player.GetWidth() / 2;
-  size_t player_right = player.GetPosition().x + player.GetWidth() / 2;
+//  std::cout << player.GetTopLeftCorner() << " " << player.GetTopRightCorner() << std::endl;
+//  std::cout << player.GetBottomLeftCorner() << " " << player.GetBottomRightCorner() << std::endl;
+//  std::cout << "--------------" << std::endl;
+//  std::cout << platform.GetTopLeftCorner() << " " << platform.GetTopRightCorner() << std::endl;
+//  std::cout << platform.GetBottomLeftCorner() << " " << platform.GetBottomRightCorner() << std::endl;
 
-  size_t player_old_bottom = player.GetOldPosition().y - player.GetHeight() / 2;
-  size_t player_old_top = player.GetOldPosition().y + player.GetHeight() / 2;
-  size_t player_old_left = player.GetOldPosition().x - player.GetWidth() / 2;
-  size_t player_old_right = player.GetOldPosition().x + player.GetWidth() / 2;
+  glm::dvec2 player_future_top_left = player.GetTopLeftCorner() + player.GetVelocity();
+  glm::dvec2 player_future_top_right = player.GetTopRightCorner() + player.GetVelocity();
+  glm::dvec2 player_future_bottom_right = player.GetBottomRightCorner() + player.GetVelocity();
+  glm::dvec2 player_future_bottom_left = player.GetBottomLeftCorner() + player.GetVelocity();
 
-  size_t platform_bottom = platform.GetPosition().y - platform.GetHeight() / 2;
-  size_t platform_top = platform.GetPosition().y + platform.GetHeight() / 2;
-  size_t platform_left = platform.GetPosition().x - platform.GetWidth() / 2;
-  size_t platform_right = platform.GetPosition().x + platform.GetWidth() / 2;
+  glm::dvec2 platform_future_top_left = platform.GetTopLeftCorner() + platform.GetVelocity();
+  glm::dvec2 platform_future_top_right = platform.GetTopRightCorner() + platform.GetVelocity();
+  glm::dvec2 platform_future_bottom_right = platform.GetBottomRightCorner() + platform.GetVelocity();
+  glm::dvec2 platform_future_bottom_left = platform.GetBottomLeftCorner() + platform.GetVelocity();
 
-  size_t platform_old_bottom = platform.GetOldPosition().y - platform.GetHeight() / 2;
-  size_t platform_old_top = platform.GetOldPosition().y + platform.GetHeight() / 2;
-  size_t platform_old_left = platform.GetOldPosition().x - platform.GetWidth() / 2;
-  size_t platform_old_right = platform.GetOldPosition().x + platform.GetWidth() / 2;
+//  std::cout << "------Future--------" << std::endl;
+//  std::cout << player_future_top_left << " " << player_future_top_right << std::endl;
+//  std::cout << player_future_bottom_left << " " << player_future_bottom_right << std::endl;
+//  std::cout << "--------------" << std::endl;
+//  std::cout << platform_future_top_left << " " << platform_future_top_right << std::endl;
+//  std::cout << platform_future_bottom_left << " " << platform_future_bottom_right << std::endl;
 
-  bool falling_on_top = player_bottom <= platform_top &&
-                        player_old_bottom >= platform_old_top;
-  bool hitting_from_under = player_top >= platform_bottom &&
-                            player_old_top < platform_old_bottom;
-  bool hitting_from_left = player_right >= platform_left &&
-                           player_old_right <= platform_old_left;
-  bool hitting_from_right = player_left <= platform_right &&
-                           player_old_left >= platform_old_right;
+  double player_future_bottom = player_future_bottom_left.y;
+  double player_future_top = player_future_top_left.y;
+  double player_future_left = player_future_bottom_left.x;
+  double player_future_right= player_future_top_right.x;
 
-  if (falling_on_top) {
-    std::cout << "On Platform" << std::endl;
-    return PlayerOnPlatform;
-  }
-  if (hitting_from_under) {
-    std::cout << "Under Platform" << std::endl;
-    return PlayerUnderPlatform;
-  }
-  if (hitting_from_left) {
-    std::cout << "Left of Platform" << std::endl;
-    return PlayerOnLeftOfPlatform;
-  }
-  if (hitting_from_right) {
-    std::cout << "Right of Platform" << std::endl;
-    return PlayerOnRightOfPlatform;
-  }
-  std::cout << "No Collision" << std::endl;
+  double platform_future_bottom = platform_future_bottom_left.y;
+  double platform_future_top = platform_future_top_left.y;
+  double platform_future_left = platform_future_bottom_left.x;
+  double platform_future_right= platform_future_top_right.x;
+
+//  std::cout << "-------Bounds------" << std::endl;
+//  std::cout << player_future_bottom << " " << player_future_top << std::endl;
+//  std::cout << player_future_left << " " << player_future_right << std::endl;
+//  std::cout << "--------------" << std::endl;
+//  std::cout << platform_future_bottom << " " << platform_future_top << std::endl;
+//  std::cout << platform_future_left << " " << platform_future_right << std::endl;
+
+  bool overlap = !(player_future_right < platform_future_left || player_future_left > platform_future_right  ||
+                  player_future_top < platform_future_bottom || player_future_bottom > platform_future_top);
+
+  if (!overlap) return NoCollision;
+
+  bool on_top = player.GetVelocity().y < 0 && player_future_bottom <= platform_future_top &&
+                (player_future_left < platform_future_right || player_future_right > platform_future_left);
+
+  bool on_bottom = player.GetVelocity().y > 0 && player_future_top > platform_future_bottom &&
+                (player_future_left < platform_future_right || player_future_right > platform_future_left);
+
+  bool on_left = player.GetVelocity().x > 0 && player_future_right > platform_future_left &&
+                (player_future_bottom < platform_future_top || player_future_top > platform_future_bottom);
+
+  bool on_right = player.GetVelocity().x < 0 && player_future_left < platform_future_right &&
+                 (player_future_bottom < platform_future_top || player_future_top > platform_future_bottom);
+
+  if (on_top) return PlayerOnPlatform;
+  if (on_bottom) return PlayerUnderPlatform;
+  if (on_left) return PlayerOnLeftOfPlatform;
+  if (on_right) return PlayerOnRightOfPlatform;
   return NoCollision;
 }
 

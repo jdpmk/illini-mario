@@ -2,35 +2,47 @@
 
 namespace physics {
 
-Entity::Entity(std::string name, glm::dvec2 position, glm::dvec2 velocity) {
-  name_ = name;
+Entity::Entity(glm::dvec2 position, glm::dvec2 velocity, size_t width, size_t height) {
   position_ = position;
-  old_position_ = position;
   velocity_ = velocity;
-}
-
-std::string Entity::GetName() const {
-  return name_;
+  width_ = width;
+  height_ = height;
 }
 
 glm::dvec2 Entity::GetPosition() const {
   return position_;
 }
 
-glm::dvec2 Entity::GetOldPosition() const {
-  return old_position_;
-}
-
 glm::dvec2 Entity::GetVelocity() const {
   return velocity_;
 }
 
-void Entity::SetPosition(const glm::dvec2& position) {
-  position_ = position;
+size_t Entity::GetWidth() const {
+  return width_;
 }
 
-void Entity::SetOldPosition(const glm::dvec2& old_position) {
-  old_position_ = old_position;
+size_t Entity::GetHeight() const {
+  return height_;
+}
+
+glm::dvec2 Entity::GetTopLeftCorner() const {
+  return glm::dvec2(position_.x - width_ / 2, position_.y + height_ / 2);
+}
+
+glm::dvec2 Entity::GetBottomLeftCorner() const {
+  return glm::dvec2(position_.x - width_ / 2, position_.y - height_ / 2);
+}
+
+glm::dvec2 Entity::GetTopRightCorner() const {
+  return glm::dvec2(position_.x + width_ / 2, position_.y + height_ / 2);
+}
+
+glm::dvec2 Entity::GetBottomRightCorner() const {
+  return glm::dvec2(position_.x + width_ / 2, position_.y - height_ / 2);
+}
+
+void Entity::SetPosition(const glm::dvec2& position) {
+  position_ = position;
 }
 
 void Entity::SetVelocity(const glm::dvec2& velocity) {
@@ -38,7 +50,6 @@ void Entity::SetVelocity(const glm::dvec2& velocity) {
 }
 
 void Entity::UpdateState(double dt) {
-  old_position_ = position_;
   position_ += velocity_ * dt;
 }
 
