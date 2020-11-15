@@ -1,4 +1,6 @@
 #include <core/player.h>
+#include "cinder/app/RendererGl.h"
+#include "cinder/gl/gl.h"
 
 namespace game {
 

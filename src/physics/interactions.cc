@@ -34,10 +34,23 @@ CollisionType DetermineCollision(const game::core::Player& player, const game::c
   bool hitting_from_right = player_left <= platform_right &&
                            player_old_left >= platform_old_right;
 
-  if (falling_on_top) return PlayerOnPlatform;
-  if (hitting_from_under) return PlayerUnderPlatform;
-  if (hitting_from_left) return PlayerOnLeftOfPlatform;
-  if (hitting_from_right) return PlayerOnRightOfPlatform;
+  if (falling_on_top) {
+    std::cout << "On Platform" << std::endl;
+    return PlayerOnPlatform;
+  }
+  if (hitting_from_under) {
+    std::cout << "Under Platform" << std::endl;
+    return PlayerUnderPlatform;
+  }
+  if (hitting_from_left) {
+    std::cout << "Left of Platform" << std::endl;
+    return PlayerOnLeftOfPlatform;
+  }
+  if (hitting_from_right) {
+    std::cout << "Right of Platform" << std::endl;
+    return PlayerOnRightOfPlatform;
+  }
+  std::cout << "No Collision" << std::endl;
   return NoCollision;
 }
 

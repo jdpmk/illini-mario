@@ -16,7 +16,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 # lots of warnings and all warnings as errors
-add_compile_options(-Wall -Wpedantic -Werror)
+add_compile_options()
 
 # FetchContent added in CMake 3.11, downloads during the configure step
 include(FetchContent)
@@ -48,7 +48,8 @@ include("${CINDER_PATH}/proj/cmake/modules/cinderMakeApp.cmake")
 
 list(APPEND CORE_SOURCE_FILES
         src/example.cc src/physics/entity.cc src/physics/accelerated_entity.cc
-        src/core/player.cc src/core/platform.cc src/physics/interactions.cc)
+        src/core/player.cc src/core/platform.cc
+        src/core/game.cc src/physics/interactions.cc)
 
 list(APPEND SOURCE_FILES ${CORE_SOURCE_FILES}
         src/gui/game_app.cc)
