@@ -28,9 +28,7 @@ CollisionType DetermineCollision(const game::core::Player& player, const game::c
   bool overlap = !(player_future_right < platform_future_left || player_future_left > platform_future_right  ||
                    player_future_top < platform_future_bottom || player_future_bottom > platform_future_top);
 
-  if (!overlap) {
-    return NoCollision;
-  }
+  if (!overlap) return NoCollision;
 
   bool on_top = player.GetVelocity().y < 0 && player_future_bottom <= platform_future_top &&
                 (player_future_left < platform_future_right && player_future_right > platform_future_left);

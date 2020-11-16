@@ -119,7 +119,7 @@ TEST_CASE("Test Diagonal Positioning") {
       REQUIRE(physics::interactions::DetermineCollision(player, platform, kDt) == physics::interactions::CollisionType::PlayerOnLeftOfPlatform);
     }
   }
-  SECTION("Top Right") {
+  SECTION("Bottom Right") {
     SECTION("On Top") {
       game::core::Player player("Player", glm::dvec2(9, -0.5), glm::dvec2(-1, 1), glm::dvec2(0, 0), 2, 2);
       game::core::Platform platform(glm::dvec2(5, 2), glm::dvec2(0, 0), 6, 2);

@@ -7,10 +7,10 @@ namespace game {
 namespace core {
 
 Game::Game() {
-  player_ = Player("Player", glm::dvec2(310, 425), glm::dvec2(1, 0), glm::dvec2(1, -0.1), 10, 10);
-  platforms_.emplace_back(glm::dvec2(400, 540), glm::dvec2(0, -0.2), 50, 20);
-  platforms_.emplace_back(glm::dvec2(400, 460), glm::dvec2(0, -0.2), 100, 20);
-  platforms_.emplace_back(glm::dvec2(400, 400), glm::dvec2(0, -0.2), 200, 20);
+  player_ = Player("Player", glm::dvec2(400, 800), glm::dvec2(1, 0), glm::dvec2(1, -0.5), 20, 20);
+  platforms_.emplace_back(glm::dvec2(400, 500), glm::dvec2(0, -0.2), 200, 10);
+  platforms_.emplace_back(glm::dvec2(400, 580), glm::dvec2(0, -0.2), 100, 10);
+  platforms_.emplace_back(glm::dvec2(400, 700), glm::dvec2(0, -0.2), 75, 10);
 }
 
 Player Game::GetPlayer() const {
@@ -78,7 +78,7 @@ void Game::PlayerJump(size_t desired_location) {
     player_.SetVelocity(
             glm::dvec2(
                     new_x_velocity,
-                    player_.GetVelocity().y + player_.GetHeight() / 2));
+                    player_.GetVelocity().y + 3 * player_.GetHeight() / 4));
   }
 }
 
