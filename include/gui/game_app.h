@@ -15,6 +15,8 @@ class GameApp : public ci::app::App {
   GameApp();
   void draw() override;
   void update() override;
+  void mouseMove(ci::app::MouseEvent event) override;
+  void mouseDown(ci::app::MouseEvent event) override;
 
   void DrawGame() const;
   void DrawPlatform(const game::core::Platform& platform) const;

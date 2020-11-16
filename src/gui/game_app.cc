@@ -19,6 +19,13 @@ void GameApp::update() {
   game_.UpdateState(game_timestep_);
 }
 
+void GameApp::mouseMove(ci::app::MouseEvent event) {
+  game_.MovePlayer(event.getPos().x);
+}
+void GameApp::mouseDown(ci::app::MouseEvent event) {
+  game_.PlayerJump(event.getPos().x);
+}
+
 void GameApp::DrawGame() const {
   DrawPlayer(game_.GetPlayer());
   for (const game::core::Platform& platform : game_.GetPlatforms())
