@@ -26,21 +26,23 @@ CollisionType DetermineCollision(const game::core::Player& player, const game::c
   double platform_future_right= platform_future_top_right.x;
 
   bool overlap = !(player_future_right < platform_future_left || player_future_left > platform_future_right  ||
-                  player_future_top < platform_future_bottom || player_future_bottom > platform_future_top);
+                   player_future_top < platform_future_bottom || player_future_bottom > platform_future_top);
 
-  if (!overlap) return NoCollision;
+  if (!overlap) {
+    return NoCollision;
+  }
 
   bool on_top = player.GetVelocity().y < 0 && player_future_bottom <= platform_future_top &&
                 (player_future_left < platform_future_right && player_future_right > platform_future_left);
 
   bool on_bottom = player.GetVelocity().y > 0 && player_future_top > platform_future_bottom &&
-                (player_future_left < platform_future_right || player_future_right > platform_future_left);
+                   (player_future_left < platform_future_right || player_future_right > platform_future_left);
 
   bool on_left = player.GetVelocity().x > 0 && player_future_right > platform_future_left &&
-                (player_future_bottom < platform_future_top || player_future_top > platform_future_bottom);
+                 (player_future_bottom < platform_future_top || player_future_top > platform_future_bottom);
 
   bool on_right = player.GetVelocity().x < 0 && player_future_left < platform_future_right &&
-                 (player_future_bottom < platform_future_top || player_future_top > platform_future_bottom);
+                  (player_future_bottom < platform_future_top || player_future_top > platform_future_bottom);
 
   if (on_top && on_left) {
     if (abs(player_future_right - platform_future_left) >= abs(player_future_bottom - platform_future_top)) {

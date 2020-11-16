@@ -7,8 +7,8 @@ namespace game {
 namespace core {
 
 Game::Game() {
-  player_ = Player("Player", glm::dvec2(540, 51), glm::dvec2(-3, 0), glm::dvec2(1, -0.1), 10, 10);
-  platforms_.emplace_back(glm::dvec2(400, 50), glm::dvec2(0, 0), 200, 20);
+  player_ = Player("Player", glm::dvec2(290, 300), glm::dvec2(1, 0), glm::dvec2(1, -0.1), 10, 10);
+  platforms_.emplace_back(glm::dvec2(400, 50), glm::dvec2(0, -0.1), 200, 20);
 }
 
 Player Game::GetPlayer() const {
@@ -20,27 +20,31 @@ std::vector<Platform> Game::GetPlatforms() const {
 }
 
 void Game::UpdateState(double dt) {
-  player_.UpdateState(dt);
+  glm::dvec2 new_position = player_.GetPosition();
   for (Platform& platform : platforms_) {
-    switch (physics::interactions::DetermineCollision(player_, platform, dt / 10)) {
+    physics::interactions::CollisionType collision_type = physics::interactions::DetermineCollision(player_, platform, dt);
+    switch (collision_type) {
       case physics::interactions::CollisionType::NoCollision:
         player_.SetOnGround(false);
         break;
       case physics::interactions::CollisionType::PlayerOnPlatform:
+        player_.SetJumping(false);
         player_.SetOnGround(true);
-        player_.SetVelocity(glm::dvec2());
+        new_position.y = platform.GetPosition().y + (platform.GetHeight() / 2) + (player_.GetHeight() / 2);
+        player_.SetPosition(new_position);
+//        player_.SetVelocity(glm::dvec2(player_.GetVelocity().x, platform.GetVelocity().y));
+          player_.SetVelocity(platform.GetVelocity());
+        break;
+      case physics::interactions::CollisionType::PlayerUnderPlatform:
         break;
       case physics::interactions::CollisionType::PlayerOnLeftOfPlatform:
-        player_.SetOnGround(false);
-        player_.SetVelocity(glm::dvec2());
         break;
       case physics::interactions::CollisionType::PlayerOnRightOfPlatform:
-        player_.SetOnGround(false);
-        player_.SetVelocity(glm::dvec2());
         break;
     }
     platform.UpdateState(dt);
   }
+  player_.UpdateState(dt);
 }
 
 }

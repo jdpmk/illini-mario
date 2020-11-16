@@ -8,6 +8,7 @@ Player::Player(const std::string& name, const glm::dvec2& position, const glm::d
         : physics::AcceleratedEntity(position, velocity, acceleration, width, height) {
   name_ = name;
   score_ = 0;
+  jumping_ = false;
   on_ground_ = false;
 }
 
@@ -21,6 +22,14 @@ bool Player::IsOnGround() const {
 
 void Player::SetOnGround(bool on_ground) {
   on_ground_ = on_ground;
+}
+
+bool Player::IsJumping() const {
+  return jumping_;
+}
+
+void Player::SetJumping(bool jumping) {
+  jumping_ = jumping;
 }
 
 void Player::UpdateState(double dt) {
