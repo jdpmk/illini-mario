@@ -4,16 +4,16 @@ namespace physics {
 
 namespace interactions {
 
-CollisionType DetermineCollision(const game::core::Player& player, const game::core::Platform& platform) {
-  glm::dvec2 player_future_top_left = player.GetTopLeftCorner() + player.GetVelocity();
-  glm::dvec2 player_future_top_right = player.GetTopRightCorner() + player.GetVelocity();
-  glm::dvec2 player_future_bottom_right = player.GetBottomRightCorner() + player.GetVelocity();
-  glm::dvec2 player_future_bottom_left = player.GetBottomLeftCorner() + player.GetVelocity();
+CollisionType DetermineCollision(const game::core::Player& player, const game::core::Platform& platform, double dt) {
+  glm::dvec2 player_future_top_left = player.GetTopLeftCorner() + player.GetVelocity() * dt;
+  glm::dvec2 player_future_top_right = player.GetTopRightCorner() + player.GetVelocity() * dt;
+  glm::dvec2 player_future_bottom_right = player.GetBottomRightCorner() + player.GetVelocity() * dt;
+  glm::dvec2 player_future_bottom_left = player.GetBottomLeftCorner() + player.GetVelocity() * dt;
 
-  glm::dvec2 platform_future_top_left = platform.GetTopLeftCorner() + platform.GetVelocity();
-  glm::dvec2 platform_future_top_right = platform.GetTopRightCorner() + platform.GetVelocity();
-  glm::dvec2 platform_future_bottom_right = platform.GetBottomRightCorner() + platform.GetVelocity();
-  glm::dvec2 platform_future_bottom_left = platform.GetBottomLeftCorner() + platform.GetVelocity();
+  glm::dvec2 platform_future_top_left = platform.GetTopLeftCorner() + platform.GetVelocity() * dt;
+  glm::dvec2 platform_future_top_right = platform.GetTopRightCorner() + platform.GetVelocity() * dt;
+  glm::dvec2 platform_future_bottom_right = platform.GetBottomRightCorner() + platform.GetVelocity() * dt;
+  glm::dvec2 platform_future_bottom_left = platform.GetBottomLeftCorner() + platform.GetVelocity() * dt;
 
   double player_future_bottom = player_future_bottom_left.y;
   double player_future_top = player_future_top_left.y;
@@ -31,7 +31,7 @@ CollisionType DetermineCollision(const game::core::Player& player, const game::c
   if (!overlap) return NoCollision;
 
   bool on_top = player.GetVelocity().y < 0 && player_future_bottom <= platform_future_top &&
-                (player_future_left < platform_future_right || player_future_right > platform_future_left);
+                (player_future_left < platform_future_right && player_future_right > platform_future_left);
 
   bool on_bottom = player.GetVelocity().y > 0 && player_future_top > platform_future_bottom &&
                 (player_future_left < platform_future_right || player_future_right > platform_future_left);

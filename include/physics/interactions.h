@@ -15,7 +15,7 @@ enum CollisionType {
   NoCollision
 };
 
-CollisionType DetermineCollision(const game::core::Player& player, const game::core::Platform& platform);
+CollisionType DetermineCollision(const game::core::Player& player, const game::core::Platform& platform, double dt);
 
 }
 
