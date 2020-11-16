@@ -79,3 +79,54 @@ TEST_CASE("Test Horizontal Positioning") {
     REQUIRE(physics::interactions::DetermineCollision(player, platform) == physics::interactions::CollisionType::PlayerOnRightOfPlatform);
   }
 }
+
+TEST_CASE("Test Diagonal Positioning") {
+  SECTION("Top Left") {
+    SECTION("On Top") {
+      game::core::Player player("Player", glm::dvec2(1, 4.5), glm::dvec2(1, -1), glm::dvec2(0, 0), 2, 2);
+      game::core::Platform platform(glm::dvec2(5, 2), glm::dvec2(0, 0), 6, 2);
+      REQUIRE(physics::interactions::DetermineCollision(player, platform) == physics::interactions::CollisionType::PlayerOnPlatform);
+    }
+    SECTION("On Left") {
+      game::core::Player player("Player", glm::dvec2(1, 3.5), glm::dvec2(1, -1), glm::dvec2(0, 0), 2, 2);
+      game::core::Platform platform(glm::dvec2(5, 2), glm::dvec2(0, 0), 6, 2);
+      REQUIRE(physics::interactions::DetermineCollision(player, platform) == physics::interactions::CollisionType::PlayerOnLeftOfPlatform);
+    }
+  }
+  SECTION("Top Right") {
+    SECTION("On Top") {
+      game::core::Player player("Player", glm::dvec2(9, 4.5), glm::dvec2(-1, -1), glm::dvec2(0, 0), 2, 2);
+      game::core::Platform platform(glm::dvec2(5, 2), glm::dvec2(0, 0), 6, 2);
+      REQUIRE(physics::interactions::DetermineCollision(player, platform) == physics::interactions::CollisionType::PlayerOnPlatform);
+    }
+    SECTION("On Right") {
+      game::core::Player player("Player", glm::dvec2(9, 3.5), glm::dvec2(-1, -1), glm::dvec2(0, 0), 2, 2);
+      game::core::Platform platform(glm::dvec2(5, 2), glm::dvec2(0, 0), 6, 2);
+      REQUIRE(physics::interactions::DetermineCollision(player, platform) == physics::interactions::CollisionType::PlayerOnRightOfPlatform);
+    }
+  }
+  SECTION("Bottom Left") {
+    SECTION("On Top") {
+      game::core::Player player("Player", glm::dvec2(1, -0.5), glm::dvec2(1, 1), glm::dvec2(0, 0), 2, 2);
+      game::core::Platform platform(glm::dvec2(5, 2), glm::dvec2(0, 0), 6, 2);
+      REQUIRE(physics::interactions::DetermineCollision(player, platform) == physics::interactions::CollisionType::PlayerUnderPlatform);
+    }
+    SECTION("On Left") {
+      game::core::Player player("Player", glm::dvec2(1, 0.5), glm::dvec2(1, 1), glm::dvec2(0, 0), 2, 2);
+      game::core::Platform platform(glm::dvec2(5, 2), glm::dvec2(0, 0), 6, 2);
+      REQUIRE(physics::interactions::DetermineCollision(player, platform) == physics::interactions::CollisionType::PlayerOnLeftOfPlatform);
+    }
+  }
+  SECTION("Top Right") {
+    SECTION("On Top") {
+      game::core::Player player("Player", glm::dvec2(9, -0.5), glm::dvec2(-1, 1), glm::dvec2(0, 0), 2, 2);
+      game::core::Platform platform(glm::dvec2(5, 2), glm::dvec2(0, 0), 6, 2);
+      REQUIRE(physics::interactions::DetermineCollision(player, platform) == physics::interactions::CollisionType::PlayerUnderPlatform);
+    }
+    SECTION("On Right") {
+      game::core::Player player("Player", glm::dvec2(9, 0.5), glm::dvec2(-1, 1), glm::dvec2(0, 0), 2, 2);
+      game::core::Platform platform(glm::dvec2(5, 2), glm::dvec2(0, 0), 6, 2);
+      REQUIRE(physics::interactions::DetermineCollision(player, platform) == physics::interactions::CollisionType::PlayerOnRightOfPlatform);
+    }
+  }
+}
