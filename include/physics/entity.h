@@ -5,6 +5,10 @@
 
 namespace physics {
 
+/**
+ * A class to represent an entity that has position and velocity, and occupies
+ * two-dimensional space.
+ */
 class Entity {
  public:
   Entity() = default;
@@ -19,7 +23,14 @@ class Entity {
   glm::dvec2 GetBottomRightCorner() const;
   void SetPosition(const glm::dvec2& position);
   void SetVelocity(const glm::dvec2& velocity);
+
+  /**
+   * Updates the vectors associated with the entity given a timestep.
+   *
+   * @param dt The timestep
+   */
   virtual void UpdateState(double dt);
+
  protected:
   glm::dvec2 position_;
   glm::dvec2 velocity_;

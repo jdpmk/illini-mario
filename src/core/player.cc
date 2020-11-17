@@ -4,11 +4,13 @@ namespace game {
 
 namespace core {
 
-Player::Player(const std::string& name, const glm::dvec2& position, const glm::dvec2& velocity, const glm::dvec2& acceleration, size_t width, size_t height)
-        : physics::AcceleratedEntity(position, velocity, acceleration, width, height) {
-  name_ = name;
+Player::Player(const std::string& name, const glm::dvec2& position,
+       const glm::dvec2& velocity, const glm::dvec2& acceleration,
+       size_t width, size_t height)
+    : physics::AcceleratedEntity(position, velocity, acceleration,
+                                 width, height) {
   score_ = 0;
-  jumping_ = false;
+  is_jumping_ = false;
   on_ground_ = false;
 }
 
@@ -25,11 +27,11 @@ void Player::SetOnGround(bool on_ground) {
 }
 
 bool Player::IsJumping() const {
-  return jumping_;
+  return is_jumping_;
 }
 
-void Player::SetJumping(bool jumping) {
-  jumping_ = jumping;
+void Player::SetJumping(bool is_jumping) {
+  is_jumping_ = is_jumping;
 }
 
 void Player::UpdateState(double dt) {
@@ -37,7 +39,6 @@ void Player::UpdateState(double dt) {
   velocity_.x *= acceleration_.x;
   position_ += velocity_ * dt;
 }
-
 
 }
 

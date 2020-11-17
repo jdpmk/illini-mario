@@ -19,14 +19,6 @@ class GameApp : public ci::app::App {
   void mouseDown(ci::app::MouseEvent event) override;
   void keyDown(ci::app::KeyEvent event) override;
 
-  void DrawGame() const;
-  void DrawStartScreen() const;
-  void DrawGameInProgress() const;
-  void DrawGamePaused() const;
-  void DrawGameOverScreen() const;
-  void DrawPlatform(const game::core::Platform& platform) const;
-  void DrawPlayer(const game::core::Player& player) const;
-
   const double kWindowSize = 875;
   const double kWindowMargin = 200;
   const double game_timestep_ = 0.5;
@@ -49,6 +41,39 @@ class GameApp : public ci::app::App {
   const size_t kMediumTextSize = 24;
   const size_t kLargeTextSize = 30;
  private:
+  /**
+   * Helper function to draw the game, based on its status.
+   */
+  void DrawGame() const;
+  /**
+   * Helper function to draw the start screen.
+   */
+  void DrawStartScreen() const;
+  /**
+   * Helper function to draw the game while it is in progress.
+   */
+  void DrawGameInProgress() const;
+  /**
+   * Helper function to draw the game paused screen.
+   */
+  void DrawGamePaused() const;
+  /**
+   * Helper function to draw the game over screen.
+   */
+  void DrawGameOverScreen() const;
+  /**
+   * Helper function to draw a platform.
+   *
+   * @param platform The platform to draw
+   */
+  void DrawPlatform(const game::core::Platform& platform) const;
+  /**
+   * Helper function to draw a player.
+   *
+   * @param player The player to draw
+   */
+  void DrawPlayer(const game::core::Player& player) const;
+
   game::core::Game game_;
 };
 

@@ -4,13 +4,19 @@
 
 namespace physics {
 
+/**
+ * A class that represents an entity that has position, velocity, and
+ * acceleration vectors.
+ */
 class AcceleratedEntity : public Entity {
  public:
   AcceleratedEntity() = default;
-  AcceleratedEntity(glm::dvec2 position, glm::dvec2 velocity, glm::dvec2 acceleration, size_t width, size_t height);
-  glm::dvec2 GetAcceleration();
-  void SetAcceleration(const glm::dvec2& acceleration);
+  AcceleratedEntity(const glm::dvec2& position, const glm::dvec2& velocity,
+                    const glm::dvec2& acceleration, size_t width,
+                    size_t height);
+  glm::dvec2 GetAcceleration() const;
   void UpdateState(double dt) override;
+
  protected:
   glm::dvec2 acceleration_;
 };
