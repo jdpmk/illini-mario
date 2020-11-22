@@ -12,16 +12,10 @@ Game::Game() {
   // These are hardcoded entities for Week 1 demo purposes.
   player_ = Player("Player", glm::dvec2(400, 100), glm::dvec2(1, 0),
                    glm::dvec2(1, -0.5), 40, 40);
-  platforms_.emplace_back(glm::dvec2(200, 100), glm::dvec2(0, -0.001), 50, 10);
-  platforms_.emplace_back(glm::dvec2(600, 100), glm::dvec2(0, -0.001), 100, 10);
-  platforms_.emplace_back(glm::dvec2(400, 150), glm::dvec2(0, -0.001), 100, 10);
-  platforms_.emplace_back(glm::dvec2(400, 250), glm::dvec2(0, -0.001), 20, 60);
-  platforms_.emplace_back(glm::dvec2(100, 100), glm::dvec2(0, 0.2), 50, 10);
-  platforms_.emplace_back(glm::dvec2(200, 300), glm::dvec2(0, -0.001), 50, 10);
-  platforms_.emplace_back(glm::dvec2(600, 300), glm::dvec2(0, -0.001), 100, 10);
-  platforms_.emplace_back(glm::dvec2(400, 350), glm::dvec2(0, -0.001), 100, 10);
-  platforms_.emplace_back(glm::dvec2(400, 450), glm::dvec2(0, -0.001), 20, 60);
-  platforms_.emplace_back(glm::dvec2(400, 20), glm::dvec2(0, -0.1), 400, 10);
+  platforms_.emplace_back(glm::dvec2(400, 20), glm::dvec2(0, -0.25), 400, 10);
+  platforms_.emplace_back(glm::dvec2(400, 100), glm::dvec2(0, -0.5), 300, 10);
+  platforms_.emplace_back(glm::dvec2(400, 200), glm::dvec2(0, -0.5), 200, 10);
+  platforms_.emplace_back(glm::dvec2(400, 260), glm::dvec2(0, -0.5), 100, 10);
 }
 
 GameStatus Game::GetGameStatus() const {
@@ -43,8 +37,8 @@ void Game::SetGameStatus(GameStatus game_status) {
 void Game::UpdateState(double dt) {
   if (game_status_ == IN_PROGRESS) {
     CollidePlayerWithPlatforms(dt);
-    GenerateNextPlatform();
-    RemoveOldPlatform();
+    GenerateNewPlatforms();
+    RemoveOldPlatforms();
     CheckGameOver();
   }
 }
@@ -128,20 +122,33 @@ void Game::CheckGameOver() {
   }
 }
 
-void Game::GenerateNextPlatform() {
-  Platform last_platform = *std::prev(platforms_.end());
-}
-
-void Game::RemoveOldPlatform() {
-  for (auto it = platforms_.begin(); it != platforms_.end(); ++it) {
-    if (PlatformGoingOffScreen(*it)) {
-      platforms_.erase(it);
-    }
+void Game::GenerateNewPlatforms() {
+  while (!PlatformGoingAboveScreen(platforms_.back())) {
+    glm::dvec2 new_position(0, 0);
+    int delta_height = rand() % (kMaxPlatformDeltaHeight - kMinPlatformDeltaHeight + 1) + kMinPlatformDeltaHeight;
+    int delta_width = rand() % (kMaxPlatformDeltaWidth - kMinPlatformDeltaWidth + 1) + kMinPlatformDeltaWidth;
+    platforms_.emplace_back(
+            platforms_.back().GetPosition() + glm::dvec2(direction * delta_width, delta_height),
+            platforms_.back().GetVelocity(),
+            100,
+            10);
+    direction *= -1;
   }
 }
 
-bool Game::PlatformGoingOffScreen(const Platform& platform) {
+void Game::RemoveOldPlatforms() {
+  while (PlatformGoingUnderScreen(platforms_.front())) {
+    platforms_.pop_front();
+  }
+}
+
+bool Game::PlatformGoingUnderScreen(const Platform& platform) {
   return platform.GetBottomRightCorner().y <= 0;
+}
+
+
+bool Game::PlatformGoingAboveScreen(const Platform& platform) {
+  return platform.GetBottomRightCorner().y >= 875;
 }
 
 }
