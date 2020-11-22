@@ -48,51 +48,11 @@ void Game::SetGameStatus(GameStatus game_status) {
 
 void Game::UpdateState(double dt) {
   if (game_status_ == IN_PROGRESS) {
-    glm::dvec2 new_position = player_.GetPosition();
     for (Platform& platform : platforms_) {
-      switch (physics::interactions::DetermineCollision(player_, platform, dt)) {
-        case physics::interactions::CollisionType::NoCollision:
-          player_.SetOnGround(false);
-          break;
-        case physics::interactions::CollisionType::PlayerOnPlatform:
-          player_.SetJumping(false);
-          player_.SetOnGround(true);
-          new_position.y = platform.GetPosition().y +
-                           (platform.GetHeight() / 2) +
-                           (player_.GetHeight() / 2);
-          player_.SetPosition(new_position);
-          player_.SetVelocity(glm::dvec2(player_.GetVelocity().x,
-                                         platform.GetVelocity().y));
-          break;
-        case physics::interactions::CollisionType::PlayerUnderPlatform:
-          new_position.y = platform.GetPosition().y -
-                           (platform.GetHeight() / 2) -
-                           (player_.GetHeight() / 2);
-          player_.SetPosition(new_position);
-          player_.SetVelocity(glm::dvec2(player_.GetVelocity().x,
-                                         -player_.GetVelocity().y));
-          break;
-        case physics::interactions::CollisionType::PlayerOnLeftOfPlatform:
-          new_position.x = platform.GetPosition().x -
-                           (platform.GetWidth() / 2) -
-                           (player_.GetWidth() / 2);
-          player_.SetPosition(new_position);
-          player_.SetVelocity(glm::dvec2(0, player_.GetVelocity().y));
-          break;
-        case physics::interactions::CollisionType::PlayerOnRightOfPlatform:
-          new_position.x = platform.GetPosition().x +
-                           (platform.GetWidth() / 2) +
-                           (player_.GetWidth() / 2);
-          player_.SetPosition(new_position);
-          player_.SetVelocity(glm::dvec2(0, player_.GetVelocity().y));
-          break;
-      }
+      Collide(player_, platform, dt);
       platform.UpdateState(dt);
     }
-    if (physics::interactions::DetermineCollision(player_, ground_platform_, dt)
-        != physics::interactions::NoCollision) {
-      game_status_ = GAME_OVER_SCREEN;
-    }
+    CheckGameOver(dt);
     ground_platform_.UpdateState(dt);
     player_.UpdateState(dt);
   }
@@ -123,6 +83,54 @@ void Game::PlayerJump(size_t desired_location) {
                     new_x_velocity,
                     player_.GetVelocity().y +
                     kJumpBoostVelocity * player_.GetHeight()));
+  }
+}
+
+void Game::Collide(Player& player, Platform& platform, double dt) {
+  glm::dvec2 new_position = player_.GetPosition();
+  switch (physics::interactions::DetermineCollision(player_, platform, dt)) {
+    case physics::interactions::CollisionType::NoCollision:
+      player_.SetOnGround(false);
+      break;
+    case physics::interactions::CollisionType::PlayerOnPlatform:
+      player_.SetJumping(false);
+      player_.SetOnGround(true);
+      new_position.y = platform.GetPosition().y +
+                       (platform.GetHeight() / 2) +
+                       (player_.GetHeight() / 2);
+      player_.SetPosition(new_position);
+      player_.SetVelocity(glm::dvec2(player_.GetVelocity().x,
+                                     platform.GetVelocity().y));
+      break;
+    case physics::interactions::CollisionType::PlayerUnderPlatform:
+      new_position.y = platform.GetPosition().y -
+                       (platform.GetHeight() / 2) -
+                       (player_.GetHeight() / 2);
+      player_.SetPosition(new_position);
+      player_.SetVelocity(glm::dvec2(player_.GetVelocity().x,
+                                     -player_.GetVelocity().y));
+      break;
+    case physics::interactions::CollisionType::PlayerOnLeftOfPlatform:
+      new_position.x = platform.GetPosition().x -
+                       (platform.GetWidth() / 2) -
+                       (player_.GetWidth() / 2);
+      player_.SetPosition(new_position);
+      player_.SetVelocity(glm::dvec2(0, player_.GetVelocity().y));
+      break;
+    case physics::interactions::CollisionType::PlayerOnRightOfPlatform:
+      new_position.x = platform.GetPosition().x +
+                       (platform.GetWidth() / 2) +
+                       (player_.GetWidth() / 2);
+      player_.SetPosition(new_position);
+      player_.SetVelocity(glm::dvec2(0, player_.GetVelocity().y));
+      break;
+  }
+}
+
+void Game::CheckGameOver(double dt) {
+  if (physics::interactions::DetermineCollision(player_, ground_platform_, dt)
+      != physics::interactions::NoCollision) {
+    game_status_ = GAME_OVER_SCREEN;
   }
 }
 

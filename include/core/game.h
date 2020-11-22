@@ -54,6 +54,8 @@ class Game {
   void PlayerJump(size_t desired_location);
 
  private:
+  void Collide(Player& player, Platform& platform, double dt);
+  void CheckGameOver(double dt);
   GameStatus game_status_;
   Player player_;
   std::vector<Platform> platforms_;
