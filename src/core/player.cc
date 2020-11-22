@@ -7,7 +7,7 @@ namespace core {
 Player::Player(const std::string& name, const glm::dvec2& position,
        const glm::dvec2& velocity, const glm::dvec2& acceleration,
        size_t width, size_t height)
-    : physics::AcceleratedEntity(position, velocity, acceleration,
+    : physics::Entity(position, velocity, acceleration,
                                  width, height) {
   score_ = 0;
   is_jumping_ = false;

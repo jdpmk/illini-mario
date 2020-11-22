@@ -2,9 +2,14 @@
 
 namespace physics {
 
-Entity::Entity(glm::dvec2 position, glm::dvec2 velocity, size_t width, size_t height) {
+Entity::Entity(const glm::dvec2& position,
+               const glm::dvec2& velocity,
+               const glm::dvec2& acceleration,
+               size_t width,
+               size_t height) {
   position_ = position;
   velocity_ = velocity;
+  acceleration_ = acceleration;
   width_ = width;
   height_ = height;
 }
@@ -15,6 +20,10 @@ glm::dvec2 Entity::GetPosition() const {
 
 glm::dvec2 Entity::GetVelocity() const {
   return velocity_;
+}
+
+glm::dvec2 Entity::GetAcceleration() const {
+  return acceleration_;
 }
 
 size_t Entity::GetWidth() const {
@@ -49,7 +58,12 @@ void Entity::SetVelocity(const glm::dvec2& velocity) {
   velocity_ = velocity;
 }
 
+void Entity::SetAcceleration(const glm::dvec2& acceleration) {
+  acceleration_ = acceleration;
+}
+
 void Entity::UpdateState(double dt) {
+  velocity_ += acceleration_ * dt;
   position_ += velocity_ * dt;
 }
 

@@ -12,9 +12,9 @@ namespace core {
 class Platform : public physics::Entity {
  public:
   Platform() = default;
-  Platform(glm::dvec2 position, glm::dvec2 velocity,
+  Platform(glm::dvec2 position, glm::dvec2 velocity, glm::dvec2 acceleration,
            size_t width, size_t height)
-      : physics::Entity(position, velocity, width, height) {}
+      : physics::Entity(position, velocity, acceleration, width, height) {}
 };
 
 }

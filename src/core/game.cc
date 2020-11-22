@@ -12,10 +12,10 @@ Game::Game() {
   // These are hardcoded entities for Week 1 demo purposes.
   player_ = Player("Player", glm::dvec2(400, 100), glm::dvec2(1, 0),
                    glm::dvec2(1, -0.5), 40, 40);
-  platforms_.emplace_back(glm::dvec2(400, 20), glm::dvec2(0, -0.25), 400, 10);
-  platforms_.emplace_back(glm::dvec2(400, 100), glm::dvec2(0, -0.5), 300, 10);
-  platforms_.emplace_back(glm::dvec2(400, 200), glm::dvec2(0, -0.5), 200, 10);
-  platforms_.emplace_back(glm::dvec2(400, 260), glm::dvec2(0, -0.5), 100, 10);
+  platforms_.emplace_back(glm::dvec2(400, 20), glm::dvec2(0, -0.25), glm::dvec2(0, -0.01), 400, 10);
+  platforms_.emplace_back(glm::dvec2(400, 100), glm::dvec2(0, -0.5), glm::dvec2(0, -0.01), 300, 10);
+  platforms_.emplace_back(glm::dvec2(400, 200), glm::dvec2(0, -0.5), glm::dvec2(0, -0.01), 200, 10);
+  platforms_.emplace_back(glm::dvec2(400, 260), glm::dvec2(0, -0.5), glm::dvec2(0, -0.01), 100, 10);
 }
 
 GameStatus Game::GetGameStatus() const {
@@ -130,6 +130,7 @@ void Game::GenerateNewPlatforms() {
     platforms_.emplace_back(
             platforms_.back().GetPosition() + glm::dvec2(direction * delta_width, delta_height),
             platforms_.back().GetVelocity(),
+            platforms_.back().GetAcceleration(),
             100,
             10);
     direction *= -1;

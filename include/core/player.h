@@ -1,6 +1,6 @@
 #pragma once
 
-#include "physics/accelerated_entity.h"
+#include "physics/entity.h"
 
 namespace game {
 
@@ -9,7 +9,7 @@ namespace core {
 /**
  * A class that represents a player in the game.
  */
-class Player : public physics::AcceleratedEntity {
+class Player : public physics::Entity {
  public:
   Player() = default;
   Player(const std::string& name, const glm::dvec2& position,
