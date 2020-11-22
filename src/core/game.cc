@@ -22,8 +22,6 @@ Game::Game() {
   platforms_.emplace_back(glm::dvec2(400, 350), glm::dvec2(0, -0.001), 100, 10);
   platforms_.emplace_back(glm::dvec2(400, 450), glm::dvec2(0, -0.001), 20, 60);
   platforms_.emplace_back(glm::dvec2(400, 20), glm::dvec2(0, -0.1), 400, 10);
-  ground_platform_ = Platform(glm::dvec2(437.5, 5), glm::dvec2(0, 0.001), 875,
-                              10);
 }
 
 GameStatus Game::GetGameStatus() const {
@@ -38,10 +36,6 @@ std::list<Platform> Game::GetPlatforms() const {
   return platforms_;
 }
 
-Platform Game::GetGroundPlatform() const {
-  return ground_platform_;
-}
-
 void Game::SetGameStatus(GameStatus game_status) {
   game_status_ = game_status;
 }
@@ -51,7 +45,7 @@ void Game::UpdateState(double dt) {
     CollidePlayerWithPlatforms(dt);
     GenerateNextPlatform();
     RemoveOldPlatform();
-    CheckGameOver(dt);
+    CheckGameOver();
   }
 }
 
@@ -125,17 +119,11 @@ void Game::CollidePlayerWithPlatforms(double dt) {
     }
     platform.UpdateState(dt);
   }
-  if (physics::interactions::DetermineCollision(player_, ground_platform_, dt)
-      != physics::interactions::NoCollision) {
-    game_status_ = GAME_OVER_SCREEN;
-  }
-  ground_platform_.UpdateState(dt);
   player_.UpdateState(dt);
 }
 
-void Game::CheckGameOver(double dt) {
-  if (physics::interactions::DetermineCollision(player_, ground_platform_, dt)
-      != physics::interactions::NoCollision) {
+void Game::CheckGameOver() {
+  if (player_.GetBottomRightCorner().y <= 0) {
     game_status_ = GAME_OVER_SCREEN;
   }
 }
@@ -153,7 +141,7 @@ void Game::RemoveOldPlatform() {
 }
 
 bool Game::PlatformGoingOffScreen(const Platform& platform) {
-  return platform.GetPosition().y < ground_platform_.GetPosition().y;
+  return platform.GetBottomRightCorner().y <= 0;
 }
 
 }

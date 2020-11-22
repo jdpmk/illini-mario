@@ -57,14 +57,13 @@ class Game {
 
  private:
   void CollidePlayerWithPlatforms(double dt);
-  void CheckGameOver(double dt);
+  void CheckGameOver();
   void GenerateNextPlatform();
   void RemoveOldPlatform();
   bool PlatformGoingOffScreen(const Platform& platform);
   GameStatus game_status_;
   Player player_;
   std::list<Platform> platforms_;
-  Platform ground_platform_;
   const size_t kMaxPlayerXVelocity = 50;
   const size_t kPointerToVelocityScale = 50;
   const double kJumpBoostVelocity = 0.375;

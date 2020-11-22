@@ -79,7 +79,6 @@ void GameApp::DrawGameInProgress() const {
   DrawPlayer(game_.GetPlayer());
   for (const game::core::Platform& platform : game_.GetPlatforms())
     DrawPlatform(platform);
-  DrawPlatform(game_.GetGroundPlatform());
 }
 
 void GameApp::DrawGamePaused() const {
