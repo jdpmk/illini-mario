@@ -56,6 +56,7 @@ class Game {
   void PlayerJump(size_t desired_location);
 
  private:
+  void ScrollScreenDown();
   void CollidePlayerWithPlatforms(double dt);
   void CheckGameOver();
   void GenerateNewPlatforms();
@@ -67,6 +68,8 @@ class Game {
   std::list<Platform> platforms_;
   size_t screen_dimension_;
   int platform_spawn_direction_ = 1;
+  bool scrolling_;
+  glm::dvec2 platform_old_velocity_;
 };
 
 }

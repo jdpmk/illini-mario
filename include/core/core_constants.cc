@@ -12,6 +12,8 @@ namespace constants {
  * Control Constants
  */
 const size_t kPointerToVelocityScale = 25;
+const double kBeginScrollThreshold = 0.9;
+const double kStopScrollThreshold = 0.67;
 
 /**
  * Player Constants
@@ -34,7 +36,8 @@ const glm::dvec2 kPlayerStartPosition = glm::dvec2(400, 100);
 const glm::dvec2 kPlayerStartVelocity = glm::dvec2(0, 0);
 const glm::dvec2 kInitialPlatformPosition = glm::dvec2(400, 20);
 const glm::dvec2 kInitialPlatformVelocity = glm::dvec2(0, -0.25);
-const glm::dvec2 kPlatformAcceleration = glm::dvec2(0, -0.001);
+const glm::dvec2 kPlatformAcceleration = glm::dvec2(0, -0.002);
+const glm::dvec2 kPlatformScrollingVelocity = glm::dvec2(0, -6.67);
 const size_t kPlatformWidth = 100;
 const size_t kPlatformHeight = 10;
 

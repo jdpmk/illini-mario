@@ -37,6 +37,7 @@ void Game::SetGameStatus(GameStatus game_status) {
 
 void Game::UpdateState(double dt) {
   if (game_status_ == IN_PROGRESS) {
+    ScrollScreenDown();
     CollidePlayerWithPlatforms(dt);
     GenerateNewPlatforms();
     RemoveOldPlatforms();
@@ -71,6 +72,26 @@ void Game::PlayerJump(size_t desired_location) {
                     kJumpBoostVelocity * player_.GetHeight()));
   }
 }
+
+void Game::ScrollScreenDown() {
+  if (!scrolling_) {
+    if (player_.GetPosition().y > kBeginScrollThreshold * screen_dimension_) {
+      platform_old_velocity_ = platforms_.back().GetVelocity();
+      std::for_each(platforms_.begin(), platforms_.end(),
+        [] (Platform& p) { p.SetVelocity(kPlatformScrollingVelocity); }
+      );
+      scrolling_ = true;
+    }
+  } else {
+    if (player_.GetPosition().y <= kStopScrollThreshold * screen_dimension_) {
+      std::for_each(platforms_.begin(), platforms_.end(),
+        [this] (Platform& p) { p.SetVelocity(platform_old_velocity_); }
+      );
+      scrolling_ = false;
+    }
+  }
+}
+
 
 void Game::CollidePlayerWithPlatforms(double dt) {
   glm::dvec2 new_position = player_.GetPosition();
