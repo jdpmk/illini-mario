@@ -22,6 +22,10 @@ bool Player::IsOnGround() const {
   return on_ground_;
 }
 
+void Player::IncrementScore() {
+  ++score_;
+}
+
 void Player::SetOnGround(bool on_ground) {
   on_ground_ = on_ground;
 }

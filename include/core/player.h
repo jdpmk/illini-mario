@@ -18,6 +18,7 @@ class Player : public physics::Entity {
   size_t GetScore() const;
   bool IsJumping() const;
   bool IsOnGround() const;
+  void IncrementScore();
   void SetOnGround(bool on_ground);
   void SetJumping(bool is_jumping);
   void UpdateState(double dt) override;

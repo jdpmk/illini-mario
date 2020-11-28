@@ -9,13 +9,13 @@ namespace core {
 Game::Game() {
   game_status_ = GameStatus::START_SCREEN;
 
-  // These are hardcoded entities for Week 1 demo purposes.
+  // These are hardcoded entities for demo purposes.
   player_ = Player("Player", glm::dvec2(400, 100), glm::dvec2(1, 0),
                    glm::dvec2(1, -0.5), 40, 40);
-  platforms_.emplace_back(glm::dvec2(400, 20), glm::dvec2(0, -0.25), glm::dvec2(0, -0.01), 400, 10);
-  platforms_.emplace_back(glm::dvec2(400, 100), glm::dvec2(0, -0.5), glm::dvec2(0, -0.01), 300, 10);
-  platforms_.emplace_back(glm::dvec2(400, 200), glm::dvec2(0, -0.5), glm::dvec2(0, -0.01), 200, 10);
-  platforms_.emplace_back(glm::dvec2(400, 260), glm::dvec2(0, -0.5), glm::dvec2(0, -0.01), 100, 10);
+  platforms_.emplace_back(glm::dvec2(400, 20), glm::dvec2(0, -0.25), glm::dvec2(0, -0.005), 400, 10);
+  platforms_.emplace_back(glm::dvec2(400, 100), glm::dvec2(0, -0.5), glm::dvec2(0, -0.005), 300, 10);
+  platforms_.emplace_back(glm::dvec2(400, 200), glm::dvec2(0, -0.5), glm::dvec2(0, -0.005), 200, 10);
+  platforms_.emplace_back(glm::dvec2(400, 260), glm::dvec2(0, -0.5), glm::dvec2(0, -0.005), 100, 10);
 }
 
 GameStatus Game::GetGameStatus() const {
@@ -87,6 +87,10 @@ void Game::CollidePlayerWithPlatforms(double dt) {
         player_.SetPosition(new_position);
         player_.SetVelocity(glm::dvec2(player_.GetVelocity().x,
                                        platform.GetVelocity().y));
+        if (!platform.GetVisited()) {
+          player_.IncrementScore();
+          platform.SetVisited(true);
+        }
         break;
       case physics::interactions::CollisionType::PlayerUnderPlatform:
         new_position.y = platform.GetPosition().y -
