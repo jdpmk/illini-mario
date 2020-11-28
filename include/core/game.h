@@ -25,7 +25,7 @@ enum GameStatus {
  */
 class Game {
  public:
-  Game();
+  Game(size_t screen_dimension);
   GameStatus GetGameStatus() const;
   Player GetPlayer() const;
   std::list<Platform> GetPlatforms() const;
@@ -61,18 +61,12 @@ class Game {
   void GenerateNewPlatforms();
   void RemoveOldPlatforms();
   bool PlatformGoingUnderScreen(const Platform& platform);
-  bool PlatformGoingAboveScreen(const Platform& platform);
+  bool PlatformGoingAboveScreen(const Platform& platform, size_t screen_height);
   GameStatus game_status_;
   Player player_;
   std::list<Platform> platforms_;
-  int direction = 1;
-  const size_t kMaxPlayerXVelocity = 50;
-  const size_t kPointerToVelocityScale = 25;
-  const double kJumpBoostVelocity = 0.375;
-  const size_t kMinPlatformDeltaHeight = 80;
-  const size_t kMaxPlatformDeltaHeight = 100;
-  const size_t kMinPlatformDeltaWidth = 100;
-  const size_t kMaxPlatformDeltaWidth = 200;
+  size_t screen_dimension_;
+  int platform_spawn_direction_ = 1;
 };
 
 }

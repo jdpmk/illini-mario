@@ -1,21 +1,22 @@
 #include <core/game.h>
-
+#include <core/core_constants.cc>
 #include <physics/interactions.h>
+
+using namespace game::core::constants;
 
 namespace game {
 
 namespace core {
 
-Game::Game() {
+Game::Game(size_t screen_dimension) {
+  screen_dimension_ = screen_dimension;
   game_status_ = GameStatus::START_SCREEN;
 
-  // These are hardcoded entities for demo purposes.
-  player_ = Player("Player", glm::dvec2(400, 100), glm::dvec2(1, 0),
-                   glm::dvec2(1, -0.5), 40, 40);
-  platforms_.emplace_back(glm::dvec2(400, 20), glm::dvec2(0, -0.25), glm::dvec2(0, -0.005), 400, 10);
-  platforms_.emplace_back(glm::dvec2(400, 100), glm::dvec2(0, -0.5), glm::dvec2(0, -0.005), 300, 10);
-  platforms_.emplace_back(glm::dvec2(400, 200), glm::dvec2(0, -0.5), glm::dvec2(0, -0.005), 200, 10);
-  platforms_.emplace_back(glm::dvec2(400, 260), glm::dvec2(0, -0.5), glm::dvec2(0, -0.005), 100, 10);
+  player_ = Player(kPlayerName, kPlayerStartPosition, kPlayerStartVelocity,
+                   kPlayerAcceleration, kPlayerWidth, kPlayerHeight);
+  platforms_.emplace_back(kInitialPlatformPosition, kInitialPlatformVelocity,
+                          kPlatformAcceleration, kPlatformWidth,
+                          kPlatformHeight);
 }
 
 GameStatus Game::GetGameStatus() const {
@@ -127,17 +128,17 @@ void Game::CheckGameOver() {
 }
 
 void Game::GenerateNewPlatforms() {
-  while (!PlatformGoingAboveScreen(platforms_.back())) {
+  while (!PlatformGoingAboveScreen(platforms_.back(), screen_dimension_)) {
     glm::dvec2 new_position(0, 0);
     int delta_height = rand() % (kMaxPlatformDeltaHeight - kMinPlatformDeltaHeight + 1) + kMinPlatformDeltaHeight;
     int delta_width = rand() % (kMaxPlatformDeltaWidth - kMinPlatformDeltaWidth + 1) + kMinPlatformDeltaWidth;
     platforms_.emplace_back(
-            platforms_.back().GetPosition() + glm::dvec2(direction * delta_width, delta_height),
+            platforms_.back().GetPosition() + glm::dvec2(platform_spawn_direction_ * delta_width, delta_height),
             platforms_.back().GetVelocity(),
             platforms_.back().GetAcceleration(),
             100,
             10);
-    direction *= -1;
+    platform_spawn_direction_ *= -1;
   }
 }
 
@@ -152,8 +153,9 @@ bool Game::PlatformGoingUnderScreen(const Platform& platform) {
 }
 
 
-bool Game::PlatformGoingAboveScreen(const Platform& platform) {
-  return platform.GetBottomRightCorner().y >= 875;
+bool Game::PlatformGoingAboveScreen(const Platform& platform,
+                                    size_t screen_height) {
+  return platform.GetBottomRightCorner().y >= screen_height;
 }
 
 }

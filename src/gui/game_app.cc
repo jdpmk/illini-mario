@@ -9,14 +9,14 @@ GameApp::GameApp() {
 }
 
 void GameApp::draw() {
-  ci::Color8u background_color(100, 100, 100);
+  ci::Color8u background_color(kBackgroundR, kBackgroundG, kBackgroundB);
   ci::gl::clear(background_color);
 
   DrawGame();
 }
 
 void GameApp::update() {
-  game_.UpdateState(game_timestep_);
+  game_.UpdateState(kGameTimestep);
 }
 
 void GameApp::mouseMove(ci::app::MouseEvent event) {
