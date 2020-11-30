@@ -1,5 +1,4 @@
 #include <core/game.h>
-#include <core/core_constants.cc>
 #include <physics/interactions.h>
 
 using namespace game::core::constants;
@@ -157,8 +156,8 @@ void Game::GenerateNewPlatforms() {
             platforms_.back().GetPosition() + glm::dvec2(platform_spawn_direction_ * delta_width, delta_height),
             platforms_.back().GetVelocity(),
             platforms_.back().GetAcceleration(),
-            100,
-            10);
+            kPlatformWidth,
+            kPlatformHeight);
     platform_spawn_direction_ *= -1;
   }
 }

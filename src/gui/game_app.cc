@@ -82,14 +82,14 @@ void GameApp::DrawGameInProgress() const {
 }
 
 void GameApp::DrawGamePaused() const {
-  ci::gl::color(ci::Color(kPlatformBodyColor.c_str()));
+  ci::gl::color(ci::Color(kPauseScreenBodyColor.c_str()));
   ci::gl::drawSolidRect(
           ci::Rectf(
                   kWindowMargin,
                   kWindowMargin,
                   kWindowSize - kWindowMargin,
                   kWindowSize - kWindowMargin));
-  ci::gl::color(ci::Color(kPlatformBorderColor.c_str()));
+  ci::gl::color(ci::Color(kPauseScreenBorderColor.c_str()));
   ci::gl::drawStrokedRect(
           ci::Rectf(
                   kWindowMargin,
@@ -117,51 +117,42 @@ void GameApp::DrawGameOverScreen() const {
 }
 
 void GameApp::DrawPlatform(const game::core::Platform& platform) const {
-  ci::gl::color(ci::Color(kPlatformBodyColor.c_str()));
-  ci::gl::drawSolidRect(
-          ci::Rectf(platform.GetTopLeftCorner().x,
-                    kWindowSize - platform.GetTopLeftCorner().y,
-                    platform.GetBottomRightCorner().x,
-                    kWindowSize - platform.GetBottomRightCorner().y));
+  size_t top_left_x = platform.GetTopLeftCorner().x;
+  size_t top_left_y = platform.GetTopLeftCorner().y;
+  size_t bottom_right_x = platform.GetTopLeftCorner().x + kPlatformHeight;
+  size_t bottom_right_y = platform.GetBottomRightCorner().y;
 
-  ci::gl::color(ci::Color(kPlatformBorderColor.c_str()));
-  ci::gl::drawStrokedRect(
-          ci::Rectf(platform.GetTopLeftCorner().x,
-                    kWindowSize - platform.GetTopLeftCorner().y,
-                    platform.GetBottomRightCorner().x,
-                    kWindowSize - platform.GetBottomRightCorner().y),
-          kBorderWidth);
+  while (top_left_x < platform.GetTopRightCorner().x) {
+    if (top_left_y < kWindowSize) {
+      ci::gl::draw(kBlockTex,
+                   ci::Rectf(top_left_x,
+                             kWindowSize - top_left_y,
+                             bottom_right_x,
+                             kWindowSize - bottom_right_y));
+    }
+    top_left_x += kPlatformHeight;
+    bottom_right_x += kPlatformHeight;
+  }
 }
 
 void GameApp::DrawPlayer(const game::core::Player& player) const {
-  bool player_facing_left = player.GetVelocity().x < 0;
-  ci::gl::color(ci::Color(kPlayerBodyColor.c_str()));
-  ci::gl::drawSolidRect(
-          ci::Rectf(player.GetTopLeftCorner().x,
-                    kWindowSize - player.GetTopLeftCorner().y,
-                    player.GetBottomRightCorner().x,
-                    kWindowSize - player.GetBottomRightCorner().y));
-
-  ci::gl::color(ci::Color(kPlayerBorderColor.c_str()));
-  ci::gl::drawStrokedRect(
-          ci::Rectf(player.GetTopLeftCorner().x,
-                    kWindowSize - player.GetTopLeftCorner().y,
-                    player.GetBottomRightCorner().x,
-                    kWindowSize - player.GetBottomRightCorner().y),
-          kBorderWidth);
-
-  ci::gl::color(ci::Color(kPlayerEyeColor.c_str()));
-  ci::gl::drawSolidCircle(
-          glm::dvec2(player.GetTopLeftCorner().x +
-                     (player_facing_left ? 1 : 3) * player.GetWidth() / 4,
-                     kWindowSize -
-                     (player.GetTopLeftCorner().y - player.GetHeight() / 3)),
-          kPlayerEyeRadius);
-  ci::gl::drawSolidCircle(
-          glm::dvec2(player.GetTopLeftCorner().x + 2 * player.GetWidth() / 4,
-                     kWindowSize -
-                     (player.GetTopLeftCorner().y - player.GetHeight() / 3)),
-          kPlayerEyeRadius);
+  if (player.IsJumping()) {
+    ci::gl::draw(player.IsFacingRight() ?
+                   kCharRightJumpTex : kCharLeftJumpTex,
+                 ci::Rectf(
+                         player.GetTopLeftCorner().x,
+                         kWindowSize - player.GetTopLeftCorner().y,
+                         player.GetBottomRightCorner().x,
+                         kWindowSize - player.GetBottomRightCorner().y));
+  } else {
+    ci::gl::draw(player.IsFacingRight() ?
+                   kCharRightGroundTex : kCharLeftGroundTex,
+                 ci::Rectf(
+                         player.GetTopLeftCorner().x,
+                         kWindowSize - player.GetTopLeftCorner().y,
+                         player.GetBottomRightCorner().x,
+                         kWindowSize - player.GetBottomRightCorner().y));
+  }
 }
 
 }

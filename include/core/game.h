@@ -5,6 +5,7 @@
 #include <core/platform.h>
 #include <core/player.h>
 #include <physics/interactions.h>
+#include <core/core_constants.h>
 
 namespace game {
 

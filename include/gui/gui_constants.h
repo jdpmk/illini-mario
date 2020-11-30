@@ -1,4 +1,8 @@
+#pragma once
+
 #include <string>
+#include "cinder/app/App.h"
+#include "cinder/gl/gl.h"
 
 namespace game {
 
@@ -9,32 +13,28 @@ namespace constants {
 /**
  * Window Constants
  */
-const double kWindowSize = 875;
-const double kWindowMargin = 200;
+const size_t kWindowSize = 875;
+const size_t kWindowMargin = 200;
 const double kGameTimestep = 0.5;
 
 /**
- * Graphics Size Constatns
- */
-const size_t kPlayerEyeRadius = 4;
-const double kBorderWidth = 2;
-
-/**
- * Color Constants
+ * Graphics Constants
  */
 const size_t kBackgroundR = 100;
 const size_t kBackgroundG = 100;
 const size_t kBackgroundB = 100;
-const std::string kTextColor = "white";
-const std::string kPlatformBodyColor = "gray";
-const std::string kPlatformBorderColor = "white";
-const std::string kPlayerBodyColor = "orange";
-const std::string kPlayerBorderColor = "white";
-const std::string kPlayerEyeColor = "white";
+const std::string kPauseScreenBodyColor = "gray";
+const std::string kPauseScreenBorderColor = "white";
+const std::string kBlockAssetFile = "block.png";
+const std::string kCharGroundRightAssetFile = "illini_mario_standing_right.png";
+const std::string kCharGroundLeftAssetFile = "illini_mario_standing_left.png";
+const std::string kCharJumpRightAssetFile = "illini_mario_jumping_right.png";
+const std::string kCharJumpLeftAssetFile = "illini_mario_jumping_left.png";
 
 /**
  * Game Text Constants
  */
+const std::string kTextColor = "white";
 const size_t kSmallTextSize = 16;
 const size_t kMediumTextSize = 24;
 const size_t kLargeTextSize = 30;
@@ -45,6 +45,7 @@ const std::string kGameResumeInstructions = "Press Space to Resume";
 const std::string kGameOverText = "Game Over!";
 const std::string kGameOverScoreText = "Your Score: ";
 const std::string kTextFont = "Roboto";
+
 }
 
 }

@@ -5,8 +5,9 @@
 #include "cinder/gl/gl.h"
 
 #include <core/game.h>
-#include <gui/gui_constants.cc>
+#include <gui/gui_constants.h>
 
+using namespace game::core::constants;
 using namespace game::gui::constants;
 
 namespace game {
@@ -57,6 +58,21 @@ class GameApp : public ci::app::App {
   void DrawPlayer(const game::core::Player& player) const;
 
   game::core::Game game_ = game::core::Game(kWindowSize);
+  const ci::gl::Texture2dRef kBlockTex =
+          ci::gl::Texture2d::create(
+                  loadImage(ci::app::loadAsset(kBlockAssetFile)));
+  const ci::gl::Texture2dRef kCharRightGroundTex =
+          ci::gl::Texture2d::create(
+                  loadImage(ci::app::loadAsset(kCharGroundRightAssetFile)));
+  const ci::gl::Texture2dRef kCharLeftGroundTex =
+          ci::gl::Texture2d::create(
+                  loadImage(ci::app::loadAsset(kCharGroundLeftAssetFile)));
+  const ci::gl::Texture2dRef kCharRightJumpTex =
+          ci::gl::Texture2d::create(
+                  loadImage(ci::app::loadAsset(kCharJumpRightAssetFile)));
+  const ci::gl::Texture2dRef kCharLeftJumpTex =
+          ci::gl::Texture2d::create(
+                  loadImage(ci::app::loadAsset(kCharJumpLeftAssetFile)));
 };
 
 }

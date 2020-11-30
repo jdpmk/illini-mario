@@ -18,8 +18,16 @@ size_t Player::GetScore() const {
   return score_;
 }
 
+bool Player::IsJumping() const {
+  return is_jumping_;
+}
+
 bool Player::IsOnGround() const {
   return on_ground_;
+}
+
+bool Player::IsFacingRight() const {
+  return velocity_.x >= 0;
 }
 
 void Player::IncrementScore() {
@@ -28,10 +36,6 @@ void Player::IncrementScore() {
 
 void Player::SetOnGround(bool on_ground) {
   on_ground_ = on_ground;
-}
-
-bool Player::IsJumping() const {
-  return is_jumping_;
 }
 
 void Player::SetJumping(bool is_jumping) {
