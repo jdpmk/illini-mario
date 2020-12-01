@@ -56,7 +56,8 @@ list(APPEND SOURCE_FILES ${CORE_SOURCE_FILES}
 
 list(APPEND TEST_FILES
         tests/test_example.cc tests/physics/test_physics_entity.cc
-        tests/physics/test_physics_interactions.cc)
+        tests/physics/test_physics_interactions.cc
+        tests/core/test_game.cc)
 
 ci_make_app(
         APP_NAME        game-gui
