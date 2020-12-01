@@ -8,7 +8,10 @@ namespace core {
 
 Game::Game() {
   game_status_ = GameStatus::START_SCREEN;
-  player_ = Player("Player", glm::dvec2(400, 100), glm::dvec2(1, 0), glm::dvec2(1, -0.5), 40, 40);
+
+  // These are hardcoded entities for Week 1 demo purposes.
+  player_ = Player("Player", glm::dvec2(400, 100), glm::dvec2(1, 0),
+                   glm::dvec2(1, -0.5), 40, 40);
   platforms_.emplace_back(glm::dvec2(200, 100), glm::dvec2(0, -0.001), 50, 10);
   platforms_.emplace_back(glm::dvec2(600, 100), glm::dvec2(0, -0.001), 100, 10);
   platforms_.emplace_back(glm::dvec2(400, 150), glm::dvec2(0, -0.001), 100, 10);
@@ -19,7 +22,8 @@ Game::Game() {
   platforms_.emplace_back(glm::dvec2(400, 350), glm::dvec2(0, -0.001), 100, 10);
   platforms_.emplace_back(glm::dvec2(400, 450), glm::dvec2(0, -0.001), 20, 60);
   platforms_.emplace_back(glm::dvec2(400, 20), glm::dvec2(0, -0.001), 400, 10);
-  ground_platform_ = Platform(glm::dvec2(437.5, 5), glm::dvec2(0, 0.001), 875, 10);
+  ground_platform_ = Platform(glm::dvec2(437.5, 5), glm::dvec2(0, 0.001), 875,
+                              10);
 }
 
 GameStatus Game::GetGameStatus() const {
