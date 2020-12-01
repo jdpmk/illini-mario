@@ -45,6 +45,7 @@ void GameApp::keyDown(ci::app::KeyEvent event) {
 }
 
 void GameApp::DrawGame() const {
+  ci::gl::draw(kBackgroundTex);
   if (game_.GetGameStatus() == game::core::GameStatus::START_SCREEN)
     DrawStartScreen();
   else if (game_.GetGameStatus() == game::core::GameStatus::GAME_OVER_SCREEN)
@@ -76,11 +77,6 @@ void GameApp::DrawStartScreen() const {
 }
 
 void GameApp::DrawGameInProgress() const {
-  ci::gl::draw(kBackgroundTex,
-               ci::Rectf(0,
-                         0,
-                         875,
-                         875));
   ci::gl::drawStringCentered(
           std::to_string(game_.GetPlayer().GetScore()),
           kScorePosition,
@@ -92,7 +88,7 @@ void GameApp::DrawGameInProgress() const {
 }
 
 void GameApp::DrawGamePaused() const {
-  ci::gl::color(ci::Color(kPauseScreenBodyColor.c_str()));
+  ci::gl::color(ci::ColorA(0, 0, 0, kPauseScreenOpacity));
   ci::gl::drawSolidRect(
           ci::Rectf(
                   kWindowMargin,

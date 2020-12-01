@@ -24,8 +24,10 @@ const size_t kBackgroundR = 100;
 const size_t kBackgroundG = 100;
 const size_t kBackgroundB = 100;
 const glm::dvec2 kScorePosition = glm::dvec2(825, 25);
-const std::string kPauseScreenBodyColor = "gray";
+const double kPauseScreenOpacity = 0.75;
 const std::string kPauseScreenBorderColor = "white";
+const std::string kPlatformBorderColor = "brown";
+const size_t kBorderWidth = 5;
 // Source: https://i.imgur.com/onEunqF.png
 const std::string kBackgroundAssetFile = "bg_edited.png";
 const std::string kBlockAssetFile = "block.png";
