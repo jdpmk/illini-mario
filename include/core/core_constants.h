@@ -33,8 +33,8 @@ const size_t kPlayerHeight = 40;
 /**
  * Platform Constants
  */
-const size_t kMinPlatformDeltaHeight = 120;
-const size_t kMaxPlatformDeltaHeight = 140;
+const size_t kMinPlatformDeltaHeight = 110;
+const size_t kMaxPlatformDeltaHeight = 130;
 const size_t kMinPlatformDeltaWidth = 120;
 const size_t kMaxPlatformDeltaWidth = 240;
 const glm::dvec2 kPlayerStartPosition = glm::dvec2(400, 100);

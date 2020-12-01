@@ -30,7 +30,6 @@ class Game {
   GameStatus GetGameStatus() const;
   Player GetPlayer() const;
   std::list<Platform> GetPlatforms() const;
-  Platform GetGroundPlatform() const;
   void SetGameStatus(GameStatus game_status);
 
   /**

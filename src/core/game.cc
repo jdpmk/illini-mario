@@ -169,7 +169,7 @@ void Game::RemoveOldPlatforms() {
 }
 
 bool Game::PlatformGoingUnderScreen(const Platform& platform) {
-  return platform.GetBottomRightCorner().y <= 0;
+  return platform.GetTopLeftCorner().y <= 0;
 }
 
 
