@@ -76,6 +76,16 @@ void GameApp::DrawStartScreen() const {
 }
 
 void GameApp::DrawGameInProgress() const {
+  ci::gl::draw(kBackgroundTex,
+               ci::Rectf(0,
+                         0,
+                         875,
+                         875));
+  ci::gl::drawStringCentered(
+          std::to_string(game_.GetPlayer().GetScore()),
+          kScorePosition,
+          ci::Color(kTextColor.c_str()),
+          ci::Font(kTextFont, kLargeTextSize));
   DrawPlayer(game_.GetPlayer());
   for (const game::core::Platform& platform : game_.GetPlatforms())
     DrawPlatform(platform);
@@ -100,7 +110,7 @@ void GameApp::DrawGamePaused() const {
           kGameResumeInstructions,
           glm::dvec2(kWindowSize / 2, kWindowSize / 2),
           ci::Color(kTextColor.c_str()),
-          ci::Font(kTextFont, kLargeTextSize));
+          ci::Font(kTextFont, kMediumTextSize));
 }
 
 void GameApp::DrawGameOverScreen() const {
@@ -113,7 +123,7 @@ void GameApp::DrawGameOverScreen() const {
           kGameOverScoreText + std::to_string(game_.GetPlayer().GetScore()),
           glm::dvec2(kWindowSize / 2, 2 * kWindowSize / 3),
           ci::Color(kTextColor.c_str()),
-          ci::Font(kTextFont, kSmallTextSize));
+          ci::Font(kTextFont, kMediumTextSize));
 }
 
 void GameApp::DrawPlatform(const game::core::Platform& platform) const {
@@ -136,23 +146,19 @@ void GameApp::DrawPlatform(const game::core::Platform& platform) const {
 }
 
 void GameApp::DrawPlayer(const game::core::Player& player) const {
-  if (player.IsJumping()) {
-    ci::gl::draw(player.IsFacingRight() ?
-                   kCharRightJumpTex : kCharLeftJumpTex,
-                 ci::Rectf(
-                         player.GetTopLeftCorner().x,
-                         kWindowSize - player.GetTopLeftCorner().y,
-                         player.GetBottomRightCorner().x,
-                         kWindowSize - player.GetBottomRightCorner().y));
-  } else {
-    ci::gl::draw(player.IsFacingRight() ?
-                   kCharRightGroundTex : kCharLeftGroundTex,
-                 ci::Rectf(
-                         player.GetTopLeftCorner().x,
-                         kWindowSize - player.GetTopLeftCorner().y,
-                         player.GetBottomRightCorner().x,
-                         kWindowSize - player.GetBottomRightCorner().y));
-  }
+  ci::gl::draw(
+          player.IsJumping()
+            ? player.IsFacingRight()
+              ? kCharRightJumpTex
+              : kCharLeftJumpTex
+            : player.IsFacingRight()
+              ? kCharRightGroundTex
+              : kCharLeftGroundTex,
+          ci::Rectf(
+                  player.GetTopLeftCorner().x,
+                  kWindowSize - player.GetTopLeftCorner().y,
+                  player.GetBottomRightCorner().x,
+                  kWindowSize - player.GetBottomRightCorner().y));
 }
 
 }

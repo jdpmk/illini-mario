@@ -58,6 +58,9 @@ class GameApp : public ci::app::App {
   void DrawPlayer(const game::core::Player& player) const;
 
   game::core::Game game_ = game::core::Game(kWindowSize);
+  const ci::gl::Texture2dRef kBackgroundTex =
+          ci::gl::Texture2d::create(
+                  loadImage(ci::app::loadAsset(kBackgroundAssetFile)));
   const ci::gl::Texture2dRef kBlockTex =
           ci::gl::Texture2d::create(
                   loadImage(ci::app::loadAsset(kBlockAssetFile)));
