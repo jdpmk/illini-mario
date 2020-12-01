@@ -1,5 +1,6 @@
-#include <core/game.h>
-#include <physics/interactions.h>
+#include "core/game.h"
+
+#include "physics/interactions.h"
 
 using namespace game::core::constants;
 
@@ -150,10 +151,15 @@ void Game::CheckGameOver() {
 void Game::GenerateNewPlatforms() {
   while (!PlatformGoingAboveScreen(platforms_.back(), screen_dimension_)) {
     glm::dvec2 new_position(0, 0);
-    int delta_height = rand() % (kMaxPlatformDeltaHeight - kMinPlatformDeltaHeight + 1) + kMinPlatformDeltaHeight;
-    int delta_width = rand() % (kMaxPlatformDeltaWidth - kMinPlatformDeltaWidth + 1) + kMinPlatformDeltaWidth;
+    int delta_height =
+            rand() % (kMaxPlatformDeltaHeight - kMinPlatformDeltaHeight + 1) +
+            kMinPlatformDeltaHeight;
+    int delta_width =
+            rand() % (kMaxPlatformDeltaWidth - kMinPlatformDeltaWidth + 1) +
+            kMinPlatformDeltaWidth;
     platforms_.emplace_back(
-            platforms_.back().GetPosition() + glm::dvec2(platform_spawn_direction_ * delta_width, delta_height),
+            platforms_.back().GetPosition() +
+            glm::dvec2(platform_spawn_direction_ * delta_width, delta_height),
             platforms_.back().GetVelocity(),
             platforms_.back().GetAcceleration(),
             kPlatformWidth,

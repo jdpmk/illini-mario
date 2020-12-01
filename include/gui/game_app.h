@@ -3,9 +3,8 @@
 #include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"
 #include "cinder/gl/gl.h"
-
-#include <core/game.h>
-#include <gui/gui_constants.h>
+#include "core/game.h"
+#include "gui/gui_constants.h"
 
 using namespace game::core::constants;
 using namespace game::gui::constants;
@@ -58,6 +57,7 @@ class GameApp : public ci::app::App {
   void DrawPlayer(const game::core::Player& player) const;
 
   game::core::Game game_ = game::core::Game(kWindowSize);
+
   const ci::gl::Texture2dRef kBackgroundTex =
           ci::gl::Texture2d::create(
                   loadImage(ci::app::loadAsset(kBackgroundAssetFile)));

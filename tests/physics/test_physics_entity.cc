@@ -1,6 +1,5 @@
-#include <catch2/catch.hpp>
-
-#include <physics/entity.h>
+#include "catch2/catch.hpp"
+#include "physics/entity.h"
 
 TEST_CASE("Construct Entities") {
   SECTION("Basic Entity Initialization") {

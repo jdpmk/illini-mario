@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+
 #include "cinder/app/App.h"
 #include "cinder/gl/gl.h"
 

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+
 #include "cinder/gl/gl.h"
 
 namespace physics {

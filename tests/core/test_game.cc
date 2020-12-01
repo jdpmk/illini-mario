@@ -1,7 +1,6 @@
-#include <catch2/catch.hpp>
-
-#include <core/game.h>
-#include <core/core_constants.h>
+#include "catch2/catch.hpp"
+#include "core/game.h"
+#include "core/core_constants.h"
 
 using namespace game::core::constants;
 

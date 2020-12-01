@@ -1,8 +1,7 @@
-#include <catch2/catch.hpp>
-
-#include <core/platform.h>
-#include <core/player.h>
-#include <physics/interactions.h>
+#include "catch2/catch.hpp"
+#include "core/platform.h"
+#include "core/player.h"
+#include "physics/interactions.h"
 
 double kDt = 1;
 
