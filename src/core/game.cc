@@ -57,7 +57,7 @@ void Game::MovePlayer(size_t desired_location) {
                   player_.GetVelocity().y));
 }
 
-void Game::PlayerJump(size_t desired_location) {
+bool Game::PlayerJump(size_t desired_location) {
   if (!player_.IsJumping()) {
     player_.SetJumping(true);
     double new_x_velocity = (desired_location - player_.GetPosition().x) /
@@ -70,7 +70,9 @@ void Game::PlayerJump(size_t desired_location) {
                     new_x_velocity,
                     player_.GetVelocity().y +
                     kJumpBoostVelocity * player_.GetHeight()));
+    return true;
   }
+  return false;
 }
 
 void Game::ScrollScreenDown() {
@@ -144,7 +146,7 @@ void Game::CollidePlayerWithPlatforms(double dt) {
 
 void Game::CheckGameOver() {
   if (player_.GetBottomRightCorner().y <= 0) {
-    game_status_ = GAME_OVER_SCREEN;
+    game_status_ = GAME_OVER;
   }
 }
 

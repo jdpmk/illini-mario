@@ -2,6 +2,7 @@
 
 #include "cinder/app/App.h"
 #include "cinder/app/RendererGl.h"
+#include "cinder/audio/audio.h"
 #include "cinder/gl/gl.h"
 #include "core/game.h"
 #include "gui/gui_constants.h"
@@ -55,9 +56,14 @@ class GameApp : public ci::app::App {
    * @param player The player to draw
    */
   void DrawPlayer(const game::core::Player& player) const;
+  void ManageMusic();
 
   game::core::Game game_ = game::core::Game(kWindowSize);
+  ci::audio::VoiceRef current_audio_;
 
+  const ci::gl::Texture2dRef kLogoTex =
+          ci::gl::Texture2d::create(
+                  loadImage(ci::app::loadAsset(kLogoAssetFile)));
   const ci::gl::Texture2dRef kBackgroundTex =
           ci::gl::Texture2d::create(
                   loadImage(ci::app::loadAsset(kBackgroundAssetFile)));
