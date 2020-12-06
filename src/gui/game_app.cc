@@ -49,6 +49,25 @@ void GameApp::keyDown(ci::app::KeyEvent event) {
   }
 }
 
+void GameApp::ManageMusic() {
+  if (game_.GetGameStatus() == game::core::GameStatus::PAUSED) {
+    current_audio_->pause();
+  }
+  else {
+    if (current_audio_ != kAudioMap.at(game_.GetGameStatus())) {
+      current_audio_->stop();
+      current_audio_ = kAudioMap.at(game_.GetGameStatus());
+      current_audio_->start();
+    }
+    if (game_.GetGameStatus() == game::core::GameStatus::IN_PROGRESS ||
+        game_.GetGameStatus() == game::core::GameStatus::START_SCREEN) {
+      if (!current_audio_->isPlaying()) {
+        current_audio_->start();
+      }
+    }
+  }
+}
+
 void GameApp::DrawGame() const {
   ci::gl::draw(kBackgroundTex);
   if (game_.GetGameStatus() == game::core::GameStatus::START_SCREEN)
@@ -174,26 +193,6 @@ void GameApp::DrawPlayer(const game::core::Player& player) const {
                   player.GetBottomRightCorner().x,
                   kWindowSize - player.GetBottomRightCorner().y));
 }
-
-void GameApp::ManageMusic() {
-  if (game_.GetGameStatus() == game::core::GameStatus::PAUSED) {
-    current_audio_->pause();
-  }
-  else {
-    if (current_audio_ != kAudioMap.at(game_.GetGameStatus())) {
-      current_audio_->stop();
-      current_audio_ = kAudioMap.at(game_.GetGameStatus());
-      current_audio_->start();
-    }
-    if (game_.GetGameStatus() == game::core::GameStatus::IN_PROGRESS ||
-        game_.GetGameStatus() == game::core::GameStatus::START_SCREEN) {
-      if (!current_audio_->isPlaying()) {
-        current_audio_->start();
-      }
-    }
-  }
-}
-
 
 }
 

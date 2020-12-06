@@ -23,7 +23,6 @@ const double kStopScrollThreshold = 0.67;
 /**
  * Player Constants
  */
-const std::string kPlayerName = "Player";
 const size_t kMaxPlayerXVelocity = 50;
 const double kJumpBoostVelocity = 0.5;
 const glm::dvec2 kPlayerAcceleration = glm::dvec2(1, -0.5);

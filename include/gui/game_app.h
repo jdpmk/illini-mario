@@ -25,6 +25,10 @@ class GameApp : public ci::app::App {
 
  private:
   /**
+   * Helper function to manage which music played based on the game status.
+   */
+  void ManageMusic();
+  /**
    * Helper function to draw the game, based on its status.
    */
   void DrawGame() const;
@@ -56,7 +60,6 @@ class GameApp : public ci::app::App {
    * @param player The player to draw
    */
   void DrawPlayer(const game::core::Player& player) const;
-  void ManageMusic();
 
   game::core::Game game_ = game::core::Game(kWindowSize);
   ci::audio::VoiceRef current_audio_;

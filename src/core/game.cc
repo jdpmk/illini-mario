@@ -14,7 +14,7 @@ Game::Game(size_t screen_dimension) {
   scrolling_ = false;
   game_status_ = GameStatus::START_SCREEN;
 
-  player_ = Player(kPlayerName, kPlayerStartPosition, kPlayerStartVelocity,
+  player_ = Player(kPlayerStartPosition, kPlayerStartVelocity,
                    kPlayerAcceleration, kPlayerWidth, kPlayerHeight);
   platforms_.emplace_back(kInitialPlatformPosition, kInitialPlatformVelocity,
                           kPlatformAcceleration, kPlatformWidth,
@@ -95,7 +95,6 @@ void Game::ScrollScreenDown() {
     }
   }
 }
-
 
 void Game::CollidePlayerWithPlatforms(double dt) {
   glm::dvec2 new_position = player_.GetPosition();

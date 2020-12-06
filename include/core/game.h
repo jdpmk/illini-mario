@@ -106,13 +106,13 @@ class Game {
   GameStatus game_status_;
   Player player_;
   std::list<Platform> platforms_;
+  size_t screen_dimension_;
   /**
    * Keep track of the average platform horizontal position to decide where
    * to generate the next platform. Used to ensure that the platform does not
    * spawn off-screen.
    */
   double average_platform_x_;
-  size_t screen_dimension_;
   /**
    * Scalar to keep track if whether the next platform should spawn to the left
    * or right. Alternates between platform generation loops.

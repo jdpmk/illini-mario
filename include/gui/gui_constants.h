@@ -39,8 +39,11 @@ const std::string kCharGroundLeftAssetFile = "illini_mario_standing_left.png";
 const std::string kCharJumpRightAssetFile = "illini_mario_jumping_right.png";
 const std::string kCharJumpLeftAssetFile = "illini_mario_jumping_left.png";
 const std::string kJumpAudioFile = "jump.mp3";
+// Source: https://www.youtube.com/watch?v=p-6U-rX7BL4
 const std::string kGameAudioFile = "game.mp3";
+// Source: https://www.youtube.com/watch?v=qEpaZR2Dvlg
 const std::string kMenuAudioFile = "menu.mp3";
+// Source: https://www.youtube.com/watch?v=1vuMpIIPAxU
 const std::string kGameOverAudioFile = "game_over.mp3";
 
 const ci::audio::VoiceRef kJumpAudio =
