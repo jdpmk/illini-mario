@@ -10,6 +10,8 @@ namespace core {
 
 Game::Game(size_t screen_dimension) {
   screen_dimension_ = screen_dimension;
+  average_platform_x_ = kInitialPlatformPosition.x;
+  scrolling_ = false;
   game_status_ = GameStatus::START_SCREEN;
 
   player_ = Player(kPlayerName, kPlayerStartPosition, kPlayerStartVelocity,
@@ -159,6 +161,9 @@ void Game::GenerateNewPlatforms() {
     int delta_width =
             rand() % (kMaxPlatformDeltaWidth - kMinPlatformDeltaWidth + 1) +
             kMinPlatformDeltaWidth;
+    platform_spawn_direction_ = average_platform_x_ < kDefaultWindowSize / 2
+                                ? 1
+                                : -1;
     platforms_.emplace_back(
             platforms_.back().GetPosition() +
             glm::dvec2(platform_spawn_direction_ * delta_width, delta_height),
@@ -166,7 +171,9 @@ void Game::GenerateNewPlatforms() {
             platforms_.back().GetAcceleration(),
             kPlatformWidth,
             kPlatformHeight);
-    platform_spawn_direction_ *= -1;
+    average_platform_x_ = ((average_platform_x_ * (platforms_.size() - 1)) +
+            (platforms_.back().GetPosition().x +
+            platform_spawn_direction_ * delta_width)) / platforms_.size();
   }
 }
 

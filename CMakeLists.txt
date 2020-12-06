@@ -60,7 +60,7 @@ list(APPEND TEST_FILES
         tests/core/test_game.cc)
 
 ci_make_app(
-        APP_NAME        game-gui
+        APP_NAME        IlliniMario
         CINDER_PATH     ${CINDER_PATH}
         SOURCES apps/game_gui.cc ${SOURCE_FILES}
         INCLUDES        include

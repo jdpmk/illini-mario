@@ -5,6 +5,7 @@ namespace game {
 namespace gui {
 
 GameApp::GameApp() {
+  ci::app::getWindow()->setTitle(kGameTitle);
   ci::app::setWindowSize((int) kWindowSize, (int) kWindowSize);
   current_audio_ = kMenuAudio;
   current_audio_->start();

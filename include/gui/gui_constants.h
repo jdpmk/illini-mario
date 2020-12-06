@@ -62,9 +62,9 @@ const std::map<game::core::GameStatus, ci::audio::VoiceRef> kAudioMap = {
         {game::core::GameStatus::GAME_OVER, kGameOverAudio}
 };
 
-const glm::dvec2 kGameLogoPosition(kWindowSize / 2, kWindowSize / 3);
-const size_t kGameLogoWidth = 200;
-const size_t kGameLogoHeight = 200;
+const glm::dvec2 kGameLogoPosition(kWindowSize / 2, kWindowSize / 4);
+const size_t kGameLogoWidth = 300;
+const size_t kGameLogoHeight = 300;
 
 /**
  * Game Text Constants
@@ -74,7 +74,7 @@ const size_t kTinyTextSize = 12;
 const size_t kSmallTextSize = 16;
 const size_t kMediumTextSize = 28;
 const size_t kLargeTextSize = 42;
-const std::string kGameTitle = "CS 126 Final Project";
+const std::string kGameTitle = "Illini Mario";
 const std::string kGamePlayInstructions = "Move with the mouse - Click to jump";
 const std::string kGameStartInstructions = "Press Enter to Start";
 const std::string kGameResumeInstructions = "Space to Resume";
