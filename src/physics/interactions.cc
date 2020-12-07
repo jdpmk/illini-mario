@@ -59,41 +59,29 @@ CollisionType DetermineCollision(const game::core::Player& player,
   // Handle special cases where more than one collision is possible
   // Assume that the collision that results in greater overlap occurred first
   // and therefore is the collision result
-  if (on_top && on_left) {
-    if (abs(player_right - platform_left) >=
-        abs(player_bottom - platform_top)) {
-      return PlayerOnPlatform;
-    } else {
-      return PlayerOnLeftOfPlatform;
-    }
-  }
+  if (on_top && on_left)
+    return abs(player_right - platform_left) >=
+           abs(player_bottom - platform_top)
+           ? PlayerOnPlatform
+           : PlayerOnLeftOfPlatform;
 
-  if (on_top && on_right) {
-    if (abs(player_left - platform_right) >=
-        abs(player_bottom - platform_top)) {
-      return PlayerOnPlatform;
-    } else {
-      return PlayerOnRightOfPlatform;
-    }
-  }
+  if (on_top && on_right)
+    return abs(player_left - platform_right) >=
+           abs(player_bottom - platform_top)
+           ? PlayerOnPlatform
+           : PlayerOnRightOfPlatform;
 
-  if (on_bottom && on_left) {
-    if (abs(player_right - platform_left) >=
-        abs(player_top - platform_bottom)) {
-      return PlayerUnderPlatform;
-    } else {
-      return PlayerOnLeftOfPlatform;
-    }
-  }
+  if (on_bottom && on_left)
+    return abs(player_right - platform_left) >=
+           abs(player_top - platform_bottom)
+           ? PlayerUnderPlatform
+           : PlayerOnLeftOfPlatform;
 
-  if (on_bottom && on_right) {
-    if (abs(player_left - platform_right) >=
-        abs(player_top - platform_bottom)) {
-      return PlayerUnderPlatform;
-    } else {
-      return PlayerOnRightOfPlatform;
-    }
-  }
+  if (on_bottom && on_right)
+    return abs(player_left - platform_right) >=
+           abs(player_top - platform_bottom)
+           ? PlayerUnderPlatform
+           : PlayerOnRightOfPlatform;
 
   // If only one collision occurred, return the respective collision
   if (on_top) return PlayerOnPlatform;
