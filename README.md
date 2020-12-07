@@ -2,6 +2,8 @@
 # Illini Mario
 Help Illini Mario jump upwards on platforms to safety!
 
+![demo](./assets/demo.gif)
+
 ### Gameplay
 Jump upwards and keep up with the falling platforms. Avoid touching the bottom of the screen.
 
