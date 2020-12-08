@@ -1,6 +1,6 @@
-![logo](./assets/logo.png)
+![logo](./assets/logo_small.png)
 # Illini Mario
-Help Illini Mario jump upwards on platforms to safety!
+Help Illini Mario jump upwards on platforms to safety! View a complete demo [here](https://www.youtube.com/watch?v=-e36jwK-24I).
 
 ![demo](./assets/demo.gif)
 
@@ -8,18 +8,18 @@ Help Illini Mario jump upwards on platforms to safety!
 Jump upwards and keep up with the falling platforms. Avoid touching the bottom of the screen.
 
 #### Controls
-- Move the mouse to control horizontal speed
-- Click the left mouse button to jump
-
-#### Keybindings
-- Enter to start
-- Escape to pause
+|Key              |Action          |
+|-----------------|----------------|
+|Enter            |Start           |
+|Escape           |Pause           |
+|Mouse            |Horizontal Speed|
+|Left Mouse Button|Jump            |
 
 ### Usage
 Instructions to acquire, compile, and run the game.
 
 #### Prerequisites
-- [CMake](cmake.org)
+- [CMake](https://cmake.org)
 - [GCC](https://gcc.gnu.org/)
 - An IDE ([CLion](https://www.jetbrains.com/clion/) recommended) or text editor
 
