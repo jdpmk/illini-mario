@@ -1,4 +1,4 @@
-#include <core/player.h>
+#include "core/player.h"
 
 namespace game {
 
@@ -7,7 +7,7 @@ namespace core {
 Player::Player(const std::string& name, const glm::dvec2& position,
        const glm::dvec2& velocity, const glm::dvec2& acceleration,
        size_t width, size_t height)
-    : physics::AcceleratedEntity(position, velocity, acceleration,
+    : physics::Entity(position, velocity, acceleration,
                                  width, height) {
   score_ = 0;
   is_jumping_ = false;
@@ -18,16 +18,24 @@ size_t Player::GetScore() const {
   return score_;
 }
 
+bool Player::IsJumping() const {
+  return is_jumping_;
+}
+
 bool Player::IsOnGround() const {
   return on_ground_;
 }
 
-void Player::SetOnGround(bool on_ground) {
-  on_ground_ = on_ground;
+bool Player::IsFacingRight() const {
+  return velocity_.x >= 0;
 }
 
-bool Player::IsJumping() const {
-  return is_jumping_;
+void Player::IncrementScore() {
+  ++score_;
+}
+
+void Player::SetOnGround(bool on_ground) {
+  on_ground_ = on_ground;
 }
 
 void Player::SetJumping(bool is_jumping) {

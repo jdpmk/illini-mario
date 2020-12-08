@@ -1,4 +1,4 @@
-#include <gui/game_app.h>
+#include "gui/game_app.h"
 
 namespace game {
 
@@ -9,14 +9,14 @@ GameApp::GameApp() {
 }
 
 void GameApp::draw() {
-  ci::Color8u background_color(100, 100, 100);
+  ci::Color8u background_color(kBackgroundR, kBackgroundG, kBackgroundB);
   ci::gl::clear(background_color);
 
   DrawGame();
 }
 
 void GameApp::update() {
-  game_.UpdateState(game_timestep_);
+  game_.UpdateState(kGameTimestep);
 }
 
 void GameApp::mouseMove(ci::app::MouseEvent event) {
@@ -45,6 +45,7 @@ void GameApp::keyDown(ci::app::KeyEvent event) {
 }
 
 void GameApp::DrawGame() const {
+  ci::gl::draw(kBackgroundTex);
   if (game_.GetGameStatus() == game::core::GameStatus::START_SCREEN)
     DrawStartScreen();
   else if (game_.GetGameStatus() == game::core::GameStatus::GAME_OVER_SCREEN)
@@ -76,21 +77,25 @@ void GameApp::DrawStartScreen() const {
 }
 
 void GameApp::DrawGameInProgress() const {
+  ci::gl::drawStringCentered(
+          std::to_string(game_.GetPlayer().GetScore()),
+          kScorePosition,
+          ci::Color(kTextColor.c_str()),
+          ci::Font(kTextFont, kLargeTextSize));
   DrawPlayer(game_.GetPlayer());
   for (const game::core::Platform& platform : game_.GetPlatforms())
     DrawPlatform(platform);
-  DrawPlatform(game_.GetGroundPlatform());
 }
 
 void GameApp::DrawGamePaused() const {
-  ci::gl::color(ci::Color(kPlatformBodyColor.c_str()));
+  ci::gl::color(ci::ColorA(0, 0, 0, kPauseScreenOpacity));
   ci::gl::drawSolidRect(
           ci::Rectf(
                   kWindowMargin,
                   kWindowMargin,
                   kWindowSize - kWindowMargin,
                   kWindowSize - kWindowMargin));
-  ci::gl::color(ci::Color(kPlatformBorderColor.c_str()));
+  ci::gl::color(ci::Color(kPauseScreenBorderColor.c_str()));
   ci::gl::drawStrokedRect(
           ci::Rectf(
                   kWindowMargin,
@@ -101,7 +106,7 @@ void GameApp::DrawGamePaused() const {
           kGameResumeInstructions,
           glm::dvec2(kWindowSize / 2, kWindowSize / 2),
           ci::Color(kTextColor.c_str()),
-          ci::Font(kTextFont, kLargeTextSize));
+          ci::Font(kTextFont, kMediumTextSize));
 }
 
 void GameApp::DrawGameOverScreen() const {
@@ -114,55 +119,42 @@ void GameApp::DrawGameOverScreen() const {
           kGameOverScoreText + std::to_string(game_.GetPlayer().GetScore()),
           glm::dvec2(kWindowSize / 2, 2 * kWindowSize / 3),
           ci::Color(kTextColor.c_str()),
-          ci::Font(kTextFont, kSmallTextSize));
+          ci::Font(kTextFont, kMediumTextSize));
 }
 
 void GameApp::DrawPlatform(const game::core::Platform& platform) const {
-  ci::gl::color(ci::Color(kPlatformBodyColor.c_str()));
-  ci::gl::drawSolidRect(
-          ci::Rectf(platform.GetTopLeftCorner().x,
-                    kWindowSize - platform.GetTopLeftCorner().y,
-                    platform.GetBottomRightCorner().x,
-                    kWindowSize - platform.GetBottomRightCorner().y));
+  size_t top_left_x = platform.GetTopLeftCorner().x;
+  size_t top_left_y = platform.GetTopLeftCorner().y;
+  size_t bottom_right_x = platform.GetTopLeftCorner().x + kPlatformHeight;
+  size_t bottom_right_y = platform.GetBottomRightCorner().y;
 
-  ci::gl::color(ci::Color(kPlatformBorderColor.c_str()));
-  ci::gl::drawStrokedRect(
-          ci::Rectf(platform.GetTopLeftCorner().x,
-                    kWindowSize - platform.GetTopLeftCorner().y,
-                    platform.GetBottomRightCorner().x,
-                    kWindowSize - platform.GetBottomRightCorner().y),
-          kBorderWidth);
+  while (top_left_x < platform.GetTopRightCorner().x) {
+    if (top_left_y < kWindowSize) {
+      ci::gl::draw(kBlockTex,
+                   ci::Rectf(top_left_x,
+                             kWindowSize - top_left_y,
+                             bottom_right_x,
+                             kWindowSize - bottom_right_y));
+    }
+    top_left_x += kPlatformHeight;
+    bottom_right_x += kPlatformHeight;
+  }
 }
 
 void GameApp::DrawPlayer(const game::core::Player& player) const {
-  bool player_facing_left = player.GetVelocity().x < 0;
-  ci::gl::color(ci::Color(kPlayerBodyColor.c_str()));
-  ci::gl::drawSolidRect(
-          ci::Rectf(player.GetTopLeftCorner().x,
-                    kWindowSize - player.GetTopLeftCorner().y,
-                    player.GetBottomRightCorner().x,
-                    kWindowSize - player.GetBottomRightCorner().y));
-
-  ci::gl::color(ci::Color(kPlayerBorderColor.c_str()));
-  ci::gl::drawStrokedRect(
-          ci::Rectf(player.GetTopLeftCorner().x,
-                    kWindowSize - player.GetTopLeftCorner().y,
-                    player.GetBottomRightCorner().x,
-                    kWindowSize - player.GetBottomRightCorner().y),
-          kBorderWidth);
-
-  ci::gl::color(ci::Color(kPlayerEyeColor.c_str()));
-  ci::gl::drawSolidCircle(
-          glm::dvec2(player.GetTopLeftCorner().x +
-                     (player_facing_left ? 1 : 3) * player.GetWidth() / 4,
-                     kWindowSize -
-                     (player.GetTopLeftCorner().y - player.GetHeight() / 3)),
-          kPlayerEyeRadius);
-  ci::gl::drawSolidCircle(
-          glm::dvec2(player.GetTopLeftCorner().x + 2 * player.GetWidth() / 4,
-                     kWindowSize -
-                     (player.GetTopLeftCorner().y - player.GetHeight() / 3)),
-          kPlayerEyeRadius);
+  ci::gl::draw(
+          player.IsJumping()
+            ? player.IsFacingRight()
+              ? kCharRightJumpTex
+              : kCharLeftJumpTex
+            : player.IsFacingRight()
+              ? kCharRightGroundTex
+              : kCharLeftGroundTex,
+          ci::Rectf(
+                  player.GetTopLeftCorner().x,
+                  kWindowSize - player.GetTopLeftCorner().y,
+                  player.GetBottomRightCorner().x,
+                  kWindowSize - player.GetBottomRightCorner().y));
 }
 
 }

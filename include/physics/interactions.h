@@ -1,7 +1,7 @@
 #pragma once
 
-#include <core/player.h>
-#include <core/platform.h>
+#include "core/player.h"
+#include "core/platform.h"
 
 namespace physics {
 

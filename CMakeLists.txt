@@ -47,15 +47,17 @@ get_filename_component(APP_PATH "${CMAKE_CURRENT_SOURCE_DIR}/" ABSOLUTE)
 include("${CINDER_PATH}/proj/cmake/modules/cinderMakeApp.cmake")
 
 list(APPEND CORE_SOURCE_FILES
-        src/example.cc src/physics/entity.cc src/physics/accelerated_entity.cc
-        src/physics/interactions.cc src/core/player.cc src/core/game.cc)
+        src/example.cc src/physics/entity.cc src/physics/interactions.cc
+        src/core/player.cc src/core/platform.cc src/core/game.cc
+        include/core/core_constants.h include/gui/gui_constants.h)
 
 list(APPEND SOURCE_FILES ${CORE_SOURCE_FILES}
         src/gui/game_app.cc)
 
 list(APPEND TEST_FILES
         tests/test_example.cc tests/physics/test_physics_entity.cc
-        tests/physics/test_physics_interactions.cc)
+        tests/physics/test_physics_interactions.cc
+        tests/core/test_game.cc)
 
 ci_make_app(
         APP_NAME        game-gui
