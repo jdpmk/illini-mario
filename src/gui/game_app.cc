@@ -5,7 +5,10 @@ namespace game {
 namespace gui {
 
 GameApp::GameApp() {
+  ci::app::getWindow()->setTitle(kGameTitle);
   ci::app::setWindowSize((int) kWindowSize, (int) kWindowSize);
+  current_audio_ = kMenuAudio;
+  current_audio_->start();
 }
 
 void GameApp::draw() {
@@ -13,6 +16,7 @@ void GameApp::draw() {
   ci::gl::clear(background_color);
 
   DrawGame();
+  ManageMusic();
 }
 
 void GameApp::update() {
@@ -24,7 +28,8 @@ void GameApp::mouseMove(ci::app::MouseEvent event) {
 }
 
 void GameApp::mouseDown(ci::app::MouseEvent event) {
-  game_.PlayerJump(event.getPos().x);
+  bool jump_successful = game_.PlayerJump(event.getPos().x);
+  if (jump_successful) kJumpAudio->start();
 }
 
 void GameApp::keyDown(ci::app::KeyEvent event) {
@@ -44,11 +49,30 @@ void GameApp::keyDown(ci::app::KeyEvent event) {
   }
 }
 
+void GameApp::ManageMusic() {
+  if (game_.GetGameStatus() == game::core::GameStatus::PAUSED) {
+    current_audio_->pause();
+  }
+  else {
+    if (current_audio_ != kAudioMap.at(game_.GetGameStatus())) {
+      current_audio_->stop();
+      current_audio_ = kAudioMap.at(game_.GetGameStatus());
+      current_audio_->start();
+    }
+    if (game_.GetGameStatus() == game::core::GameStatus::IN_PROGRESS ||
+        game_.GetGameStatus() == game::core::GameStatus::START_SCREEN) {
+      if (!current_audio_->isPlaying()) {
+        current_audio_->start();
+      }
+    }
+  }
+}
+
 void GameApp::DrawGame() const {
   ci::gl::draw(kBackgroundTex);
   if (game_.GetGameStatus() == game::core::GameStatus::START_SCREEN)
     DrawStartScreen();
-  else if (game_.GetGameStatus() == game::core::GameStatus::GAME_OVER_SCREEN)
+  else if (game_.GetGameStatus() == game::core::GameStatus::GAME_OVER)
     DrawGameOverScreen();
   else {
     DrawGameInProgress();
@@ -74,6 +98,19 @@ void GameApp::DrawStartScreen() const {
           glm::dvec2(kWindowSize / 2, 2 * kWindowSize / 3),
           ci::Color(kTextColor.c_str()),
           ci::Font(kTextFont, kSmallTextSize));
+  ci::gl::drawString(
+          kGameDeveloper,
+          kGameDevPosition,
+          ci::Color(kTextColor.c_str()),
+          ci::Font(kTextFont, kTinyTextSize));
+  ci::gl::draw(
+          kLogoTex,
+          ci::Rectf(
+                  kGameLogoPosition.x - (kGameLogoWidth / 2),
+                  kGameLogoPosition.y - (kGameLogoHeight / 2),
+                  kGameLogoPosition.x + (kGameLogoWidth / 2),
+                  kGameLogoPosition.y + (kGameLogoHeight / 2)
+                  ));
 }
 
 void GameApp::DrawGameInProgress() const {

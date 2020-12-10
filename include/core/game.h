@@ -18,7 +18,7 @@ enum GameStatus {
   START_SCREEN,
   IN_PROGRESS,
   PAUSED,
-  GAME_OVER_SCREEN
+  GAME_OVER
 };
 
 /**
@@ -53,7 +53,7 @@ class Game {
    *
    * @param desired_location The desired horizontal pixel location
    */
-  void PlayerJump(size_t desired_location);
+  bool PlayerJump(size_t desired_location);
 
  private:
   /**
@@ -107,6 +107,12 @@ class Game {
   Player player_;
   std::list<Platform> platforms_;
   size_t screen_dimension_;
+  /**
+   * Keep track of the average platform horizontal position to decide where
+   * to generate the next platform. Used to ensure that the platform does not
+   * spawn off-screen.
+   */
+  double average_platform_x_;
   /**
    * Scalar to keep track if whether the next platform should spawn to the left
    * or right. Alternates between platform generation loops.

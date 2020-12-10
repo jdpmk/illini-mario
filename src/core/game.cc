@@ -10,9 +10,11 @@ namespace core {
 
 Game::Game(size_t screen_dimension) {
   screen_dimension_ = screen_dimension;
+  average_platform_x_ = kInitialPlatformPosition.x;
+  scrolling_ = false;
   game_status_ = GameStatus::START_SCREEN;
 
-  player_ = Player(kPlayerName, kPlayerStartPosition, kPlayerStartVelocity,
+  player_ = Player(kPlayerStartPosition, kPlayerStartVelocity,
                    kPlayerAcceleration, kPlayerWidth, kPlayerHeight);
   platforms_.emplace_back(kInitialPlatformPosition, kInitialPlatformVelocity,
                           kPlatformAcceleration, kPlatformWidth,
@@ -57,7 +59,7 @@ void Game::MovePlayer(size_t desired_location) {
                   player_.GetVelocity().y));
 }
 
-void Game::PlayerJump(size_t desired_location) {
+bool Game::PlayerJump(size_t desired_location) {
   if (!player_.IsJumping()) {
     player_.SetJumping(true);
     double new_x_velocity = (desired_location - player_.GetPosition().x) /
@@ -70,7 +72,9 @@ void Game::PlayerJump(size_t desired_location) {
                     new_x_velocity,
                     player_.GetVelocity().y +
                     kJumpBoostVelocity * player_.GetHeight()));
+    return true;
   }
+  return false;
 }
 
 void Game::ScrollScreenDown() {
@@ -91,7 +95,6 @@ void Game::ScrollScreenDown() {
     }
   }
 }
-
 
 void Game::CollidePlayerWithPlatforms(double dt) {
   glm::dvec2 new_position = player_.GetPosition();
@@ -144,7 +147,7 @@ void Game::CollidePlayerWithPlatforms(double dt) {
 
 void Game::CheckGameOver() {
   if (player_.GetBottomRightCorner().y <= 0) {
-    game_status_ = GAME_OVER_SCREEN;
+    game_status_ = GAME_OVER;
   }
 }
 
@@ -157,6 +160,9 @@ void Game::GenerateNewPlatforms() {
     int delta_width =
             rand() % (kMaxPlatformDeltaWidth - kMinPlatformDeltaWidth + 1) +
             kMinPlatformDeltaWidth;
+    platform_spawn_direction_ = average_platform_x_ < kDefaultWindowSize / 2
+                                ? 1
+                                : -1;
     platforms_.emplace_back(
             platforms_.back().GetPosition() +
             glm::dvec2(platform_spawn_direction_ * delta_width, delta_height),
@@ -164,7 +170,9 @@ void Game::GenerateNewPlatforms() {
             platforms_.back().GetAcceleration(),
             kPlatformWidth,
             kPlatformHeight);
-    platform_spawn_direction_ *= -1;
+    average_platform_x_ = ((average_platform_x_ * (platforms_.size() - 1)) +
+            (platforms_.back().GetPosition().x +
+            platform_spawn_direction_ * delta_width)) / platforms_.size();
   }
 }
 

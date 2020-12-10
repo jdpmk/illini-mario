@@ -16,6 +16,7 @@ class Platform : public physics::Entity {
            size_t width, size_t height);
   bool GetVisited() const;
   void SetVisited(bool visited);
+
  private:
   bool visited_;
 };
