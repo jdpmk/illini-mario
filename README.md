@@ -33,7 +33,7 @@ Create a directory `my-projects` within your Cinder directory  and clone this re
 ```
 cd cinder_0.9.2_mac
 mkdir my-projects
-git clone https://github.com/uiuc-fa20-cs126/final-project-joydeepm02.git
+git clone https://github.com/joydeepm02/illini-mario.git
 ```
 
 #### Running from CLion
